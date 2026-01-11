@@ -1,5 +1,6 @@
 {
   "extends": "@repo/typescript-config/base.json",
+  "include": ["src/**/*", "generated/**/*"],
   "compilerOptions": {
     // Environment setup & latest features
     "lib": ["ESNext"],
@@ -9,13 +10,12 @@
     "jsx": "react-jsx",
     "allowJs": true,
 
-    "rootDir": "./src",
     "outDir": "./dist",
 
     // Bundler mode
     "allowImportingTsExtensions": false,
     "verbatimModuleSyntax": true,
-    "noEmit": false ,
+    "noEmit": false,
 
     // Best practices
     "strict": true,
@@ -28,7 +28,5 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules","dist"]
+  }
 }
