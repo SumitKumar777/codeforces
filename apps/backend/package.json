@@ -1,20 +1,23 @@
 {
-  "name": "backend",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-
-   "dependencies": {
-    "@repo/db": "*"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "@repo/typescript-config": "*"
-  },
-  "scripts": {
-    "build": "tsc"
-  },  
-  "peerDependencies": {
-    "typescript": "^5"
-  }
+	"name": "backend",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"dependencies": {
+		"@repo/db": "*",
+		"zod": "^4.3.5"
+	},
+	"devDependencies": {
+		"@repo/typescript-config": "*",
+		"@types/bun": "latest",
+		"concurrently": "^9.2.1",
+		"nodemon": "^3.1.11"
+	},
+	"scripts": {
+		"build": "tsc -b ",
+		"dev": "concurrently \"tsc -b --watch\" \"nodemon ./dist\""
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
 }

@@ -20,4 +20,66 @@ model User {
   password String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  submission Submission[]
+}
+
+model Admin {
+  id    String @id @default(uuid())
+  email String @unique
+  name  String?
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdProblems Problems[]
+}
+
+
+model Problems {
+  id  Int @id @default(autoincrement())
+  adminId String 
+  title String
+  description String
+  visibleTestCase VisibleTestCase[]
+  hiddenTestCase HiddenTestCase[]
+  admin  Admin @relation(fields: [adminId], references: [id])
+
+}
+
+model VisibleTestCase{
+  id   String @id @default(uuid())
+  problemId  Int  
+  input String 
+  output String
+  order  Int
+  problem Problems @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  @@index([problemId])
+}
+
+
+model HiddenTestCase {
+  id String @id @default(uuid())
+  problemId Int 
+  input String
+  output String
+  order Int
+  problem Problems @relation(fields: [problemId], references: [id] , onDelete: Cascade)
+  @@index([problemId])
+}
+
+
+model Submission {
+  id String @id @default(uuid())
+  userId String 
+  problemId Int 
+  state  SubmissionState @default(PENDING)
+  AttemptedAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+
+enum SubmissionState {
+  PENDING
+  FAILED
+  SUCCESS
 }
