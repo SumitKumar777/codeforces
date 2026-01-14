@@ -1,4 +1,5 @@
 import { z } from "zod";
+export * from "./problemResponse.js";
 
 export const problemSchema = z.object({
    problem_Title: z

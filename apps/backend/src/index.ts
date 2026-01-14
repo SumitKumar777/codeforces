@@ -17,7 +17,7 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/code",codeExecRouter);
-app.use("/share",sharedApiRouter);
+app.use("/shared",sharedApiRouter);
 app.use("/admin",adminRouter);
 
 
