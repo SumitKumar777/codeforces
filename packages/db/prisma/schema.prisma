@@ -39,6 +39,8 @@ model Problems {
   adminId String 
   title String
   description String
+  inputStatement String
+  outputStatement String
   visibleTestCase VisibleTestCase[]
   hiddenTestCase HiddenTestCase[]
   admin  Admin @relation(fields: [adminId], references: [id])
