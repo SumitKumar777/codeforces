@@ -3,12 +3,14 @@ import express from "express";
 import { codeExecRouter } from "./codeExec/code.js";
 import { sharedApiRouter } from "./shared/shared.js";
 import { adminRouter } from "./admin/admin.js";
-
+import cors from "cors"
 
 const app: Express = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
+
+app.use(cors({ origin:"http://localhost:3000",credentials:true }))
 
 app.get("/",(req,res)=>{
   res.send("hi from the server");

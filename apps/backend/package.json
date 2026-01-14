@@ -5,11 +5,14 @@
 	"private": true,
 	"dependencies": {
 		"@repo/db": "*",
+		"cors": "^2.8.5",
 		"zod": "^4.3.5"
 	},
 	"devDependencies": {
 		"@repo/typescript-config": "*",
+		"@repo/types": "*",
 		"@types/bun": "latest",
+		"@types/cors": "^2.8.19",
 		"concurrently": "^9.2.1",
 		"nodemon": "^3.1.11"
 	},
