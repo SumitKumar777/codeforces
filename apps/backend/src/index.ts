@@ -21,6 +21,7 @@ app.use("/shared",sharedApiRouter);
 app.use("/admin",adminRouter);
 
 
+
 app.use("",(req, res)=>{
   console.log("invalid router");
   return res.send("invalid route please check the route")

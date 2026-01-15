@@ -3,11 +3,8 @@ import ProblemRenderer from "@/components/custom/problemRenderer";
 import { ApiResponseSchema, ProblemDetailsSchema } from "@repo/types";
 
 
-
-
 const fetchProblem = async (problemId: string) => {
-   try {
-
+   try{
       const response = await fetch(
 				`http://localhost:3001/shared/problem/${problemId}`
 			);
