@@ -20,7 +20,7 @@ model User {
   password String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  submission Submission[]
+  submission Submissions[]
 }
 
 model Admin {
@@ -70,10 +70,12 @@ model HiddenTestCase {
 }
 
 
-model Submission {
+model Submissions {
   id String @id @default(uuid())
   userId String 
   problemId Int 
+  language String
+  code String
   state  SubmissionState @default(PENDING)
   AttemptedAt DateTime @default(now())
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
