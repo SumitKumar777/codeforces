@@ -1,26 +1,26 @@
 {
-	"name": "@repo/redis-client",
-	"module": "index.ts",
-	"type": "module",
-	"private": true,
+  "name": "@repo/redis-client",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
   "scripts": {
     "build": "tsc -b ",
     "dev": "tsc -b --watch"
   },
-	"exports": {
-		".": {
-			"types": "./dist/src/index.d.ts",
-			"default": "./dist/src/index.js"
-		}
-	},
-	"devDependencies": {
-		"@types/bun": "latest",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
     "@repo/typescript-config": "*"
-	},
-	"peerDependencies": {
-		"typescript": "^5"
-	},
-	"dependencies": {
-		"redis": "^5.10.0"
-	}
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "redis": "^5.10.0"
+  }
 }
