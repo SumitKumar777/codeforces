@@ -1,6 +1,6 @@
 {
 	"extends": "@repo/typescript-config/base.json",
-	"include": ["src/**/*", "generated/**/*"],
+	"include": ["src/**/*"],
 	"compilerOptions": {
 		// Environment setup & latest features
 		"lib": ["ESNext"],
