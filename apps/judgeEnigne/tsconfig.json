@@ -9,7 +9,6 @@
 		"jsx": "react-jsx",
 		"allowJs": true,
 
-		"rootDir": "./src",
 		"outDir": "./dist",
 
 		// Bundler mode
@@ -29,6 +28,6 @@
 		"noUnusedParameters": false,
 		"noPropertyAccessFromIndexSignature": false
 	},
-	"include": ["src/**/*"],
+	"include": ["src/**/*","scripts/**/*"],
 	"exclude": ["node_modules", "dist"]
 }

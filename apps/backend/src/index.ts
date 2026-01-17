@@ -4,6 +4,7 @@ import { codeExecRouter } from "./codeExec/code.js";
 import { sharedApiRouter } from "./shared/shared.js";
 import { adminRouter } from "./admin/admin.js";
 import cors from "cors"
+import  "./codeExec/consumer/consumer.js";
 
 const app: Express = express();
 const PORT = process.env.PORT || 3001;

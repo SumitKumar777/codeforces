@@ -1,6 +1,6 @@
 
 
-import { apiClient, redis } from "@repo/redis-client";
+import { apiClient } from "@repo/redis-client";
 
 
 
@@ -24,8 +24,15 @@ export async function createStreamConsumerGroup() {
 }
 
 
+(async () => {
+   const client = await apiClient.getApiWriteRedisClient();
 
-(async()=>{
-   await createStreamConsumerGroup();
-   console.log("created the stream and consumer group in the script");
-})()
+   try {
+      await createStreamConsumerGroup();
+      console.log("created the stream and consumer group in the script");
+   } catch (err) {
+      console.error("error running redis init script", err);
+   } finally {
+      await client.quit();
+   }
+})();

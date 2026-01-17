@@ -6,19 +6,22 @@
 	"dependencies": {
 		"@repo/db": "*",
 		"cors": "^2.8.5",
+		"dockerode": "^4.0.9",
 		"zod": "^4.3.5"
 	},
 	"devDependencies": {
-		"@repo/typescript-config": "*",
 		"@repo/redis-client": "*",
 		"@repo/types": "*",
+		"@repo/typescript-config": "*",
 		"@types/bun": "latest",
 		"@types/cors": "^2.8.19",
+		"@types/dockerode": "^4.0.0",
 		"concurrently": "^9.2.1",
 		"nodemon": "^3.1.11"
 	},
 	"scripts": {
 		"build": "tsc -b ",
+		"start": " bun run ./dist/script/redis-init.js &&  node ./dist/src/index.js",
 		"dev": "concurrently \"tsc -b --watch\" \"nodemon ./dist\""
 	},
 	"peerDependencies": {

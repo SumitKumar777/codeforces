@@ -7,6 +7,7 @@ import { apiClient } from "@repo/redis-client";
 async function resultListener(){
 
 const  readClient = await apiClient.getApiReadRedisClient();
+console.log("consumer started in api");
 
 while (true) {
     const response = await readClient.xReadGroup(

@@ -1,7 +1,7 @@
 
 
 import { Router } from "express";
-import { SubmissionState } from "../../../../packages/db/dist/generated/prisma/enums.js";
+
 
 import { apiClient } from "@repo/redis-client";
 
@@ -35,7 +35,7 @@ codeExecRouter.post("/submit", async (req, res) => {
           problemId: Number(problemId),
           code,
           language,
-          status: SubmissionState.PENDING,
+          state: "PENDING",
         },
       });
     });

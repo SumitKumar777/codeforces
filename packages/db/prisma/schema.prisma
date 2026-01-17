@@ -33,7 +33,7 @@ model Admin {
   createdProblems Problems[]
 }
 
-
+//! problem schema should also have cpu limit and memory limit according to the question and also 
 
 model Problems {
   id  Int @id @default(autoincrement())
@@ -77,6 +77,7 @@ model Submissions {
   language String
   code String
   state  SubmissionState @default(PENDING)
+  verdict  SubmissionVerdict @default(PENDING)
   AttemptedAt DateTime @default(now())
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -86,5 +87,23 @@ model Submissions {
 enum SubmissionState {
   PENDING
   FAILED
+  PROCESSING  
   SUCCESS
+}
+
+
+enum SubmissionVerdict {
+  AC   // Accepted
+  WA   // Wrong Answer
+  CE   // Compilation Error
+  RE   // Runtime Error
+  TLE  // Time Limit Exceeded
+  MLE  // Memory Limit Exceeded
+  OLE  // Output Limit Exceeded
+  PE   // Presentation Error
+  ILE  // Idleness Limit Exceeded
+  SV   // Security Violation / Restricted Function
+  JE   // Judge Error
+  SKIPPED // Not evaluated / skipped
+  PENDING //FOR DEFAULT VALUE
 }

@@ -2,10 +2,6 @@ import { judgeEngine } from "@repo/redis-client";
 
 
 
-console.log("Judge Engine Client:", judgeEngine);
-
-
-
 async function submissionListner(){
 
    const readClient= await judgeEngine.getJudgeReadRedisClient();
@@ -22,7 +18,18 @@ async function submissionListner(){
             COUNT:10
          }
       )
-   console.log("judge submission  Read respone ", response);
+
+
+      if(response){
+         console.log("judge submission  Read respone ", response[0]?.messages[0]);
+         
+      }else{
+         console.log("no response");
+      }
+  
+
+
+
    }
 
 }

@@ -26,7 +26,15 @@ export async function createStreamConsumerGroup() {
    return;
 }
 
-(async()=>{
-   await createStreamConsumerGroup();
-   console.log("created the stream and consumer group in the script");
-})()
+(async () => {
+   const client = await judgeEngine.getJudgeWriteRedisClient();
+
+   try {
+      await createStreamConsumerGroup();
+      console.log("created the stream and consumer group in the script");
+   } catch (err) {
+      console.error("error running redis init script", err);
+   } finally {
+      await client.quit();
+   }
+})();
