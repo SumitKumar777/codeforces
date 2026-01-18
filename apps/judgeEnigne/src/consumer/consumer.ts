@@ -1,4 +1,5 @@
 import { judgeEngine } from "@repo/redis-client";
+import { problemProcessor } from "./processor.js";
 
 
 
@@ -21,13 +22,17 @@ async function submissionListner(){
 
 
       if(response){
-         console.log("judge submission  Read respone ", response[0]?.messages[0]);
-         
+         console.log("judge submission  Read respone ", response[0]?.messages[0]?.message);
+
+         if (response[0]?.messages[0]?.message.submissionId){
+            await problemProcessor(response[0]?.messages[0]?.message.submissionId);
+         }else{
+            console.log("submission id is missing in judgeConsumer");
+         }
+
       }else{
          console.log("no response");
       }
-  
-
 
 
    }

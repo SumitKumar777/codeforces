@@ -20,7 +20,15 @@ while (true) {
         COUNT:10
       }
     );
-    console.log("response from stream in api ", response);
+  try {
+    if (response) {
+      console.log("response from stream in api ", (response[0]?.messages[0]?.message));
+      console.log("response from stream  2 ", JSON.parse(response[0]?.messages[0]?.message.result as string));
+      
+    }
+  } catch (error) {
+    console.log("error in the parsing the result Stream in backend api", error);
+  }
 
   }
 }

@@ -74,10 +74,11 @@ model Submissions {
   id String @id @default(uuid())
   userId String 
   problemId Int 
-  language String
-  code String
+  language  String
+  code String 
   state  SubmissionState @default(PENDING)
   verdict  SubmissionVerdict @default(PENDING)
+  errorMessage String? @default("")
   AttemptedAt DateTime @default(now())
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -90,6 +91,15 @@ enum SubmissionState {
   PROCESSING  
   SUCCESS
 }
+
+// enum LanguageType { 
+//   CPP
+//   JS
+//   PY
+//   RUST
+//   GO
+// }
+
 
 
 enum SubmissionVerdict {
