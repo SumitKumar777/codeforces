@@ -13,13 +13,17 @@
   "dependencies": {
     "@repo/types": "*",
     "@repo/ui": "*",
+    "@repo/db":"*",
+    "better-auth": "^1.4.15",
     "next": "16.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-markdown": "^10.1.0",
     "tailwindcss": "^4.1.18"
+
   },
   "devDependencies": {
+
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/node": "^22.15.3",

@@ -5,6 +5,7 @@
 	"private": true,
 	"dependencies": {
 		"@repo/db": "*",
+		"better-auth": "^1.4.15",
 		"cors": "^2.8.5",
 		"dockerode": "^4.0.9",
 		"zod": "^4.3.5"

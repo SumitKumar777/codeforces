@@ -6,7 +6,7 @@
 	"exports": {
 		".": {
 			"types": "./dist/src/index.d.ts",
-			"default": "./dist/src/index.js", 
+			"default": "./dist/src/index.js",
 			"enums": "./dist/generated/prisma/enums.js"
 		}
 	},
@@ -19,6 +19,7 @@
 	"dependencies": {
 		"@prisma/adapter-pg": "^7.2.0",
 		"@prisma/client": "^7.2.0",
+		"better-auth": "^1.4.15",
 		"dotenv": "^17.2.3",
 		"pg": "^8.16.3"
 	},

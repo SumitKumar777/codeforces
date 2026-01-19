@@ -1,8 +1,9 @@
 import { config } from "dotenv";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+export * from "../generated/prisma/client.js";
 
-import { SubmissionState , SubmissionVerdict} from "../generated/prisma/client.js";
+export * from "./auth/permission.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -34,7 +35,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 
-export {SubmissionState, SubmissionVerdict};
+
 
 
 export default prisma;

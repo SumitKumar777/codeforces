@@ -1,4 +1,4 @@
-import type  {Express} from "express";
+import type  {Express, Response} from "express";
 import express from "express";
 import { codeExecRouter } from "./codeExec/code.js";
 import { sharedApiRouter } from "./shared/shared.js";
@@ -8,6 +8,8 @@ import  "./codeExec/consumer/consumer.js";
 
 const app: Express = express();
 const PORT = process.env.PORT || 3001;
+
+export const userConnection:Map<string,Response>= new Map();
 
 app.use(express.json());
 
@@ -20,6 +22,21 @@ app.get("/",(req,res)=>{
 app.use("/code",codeExecRouter);
 app.use("/shared",sharedApiRouter);
 app.use("/admin",adminRouter);
+
+app.get('/events', (req, res) => {
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+
+  res.write(`data: Connected to server\n\n`);
+  
+  // When client closes connection, stop sending events
+  req.on('close', () => {
+    res.end();
+  });
+});
 
 
 

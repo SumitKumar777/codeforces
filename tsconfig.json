@@ -1,0 +1,12 @@
+  {
+       "extends": "./packages/typescript-config/base.json",
+       "compilerOptions": {
+         "forceConsistentCasingInFileNames": true,
+         "baseUrl": ".",
+         "paths": {
+           "@repo/*": ["./packages/*/src"]
+         }
+       },
+       "include": ["apps/**/*", "packages/**/*"],
+       "exclude": ["node_modules", "dist"]
+     }
