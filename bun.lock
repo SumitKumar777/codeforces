@@ -6,15 +6,15 @@
       "name": "codeforces",
       "dependencies": {
         "@better-auth/cli": "^1.4.15",
-        "express": "^5.2.1",
+        "express": "^5.2.1"
       },
       "devDependencies": {
         "@types/express": "^5.0.6",
         "better-auth": "^1.4.15",
         "prettier": "^3.7.4",
         "turbo": "^2.7.3",
-        "typescript": "5.9.2",
-      },
+        "typescript": "5.9.2"
+      }
     },
     "apps/backend": {
       "name": "backend",
@@ -23,7 +23,7 @@
         "better-auth": "^1.4.15",
         "cors": "^2.8.5",
         "dockerode": "^4.0.9",
-        "zod": "^4.3.5",
+        "zod": "^4.3.5"
       },
       "devDependencies": {
         "@repo/redis-client": "*",
@@ -33,11 +33,11 @@
         "@types/cors": "^2.8.19",
         "@types/dockerode": "^4.0.0",
         "concurrently": "^9.2.1",
-        "nodemon": "^3.1.11",
+        "nodemon": "^3.1.11"
       },
       "peerDependencies": {
-        "typescript": "^5",
-      },
+        "typescript": "^5"
+      }
     },
     "apps/frontend": {
       "name": "web",
@@ -51,7 +51,7 @@
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
         "react-markdown": "^10.1.0",
-        "tailwindcss": "^4.1.18",
+        "tailwindcss": "^4.1.18"
       },
       "devDependencies": {
         "@repo/eslint-config": "*",
@@ -60,8 +60,8 @@
         "@types/react": "19.2.2",
         "@types/react-dom": "19.2.2",
         "eslint": "^9.39.1",
-        "typescript": "5.9.2",
-      },
+        "typescript": "5.9.2"
+      }
     },
     "apps/judgeEnigne": {
       "name": "judgeenigne",
@@ -72,11 +72,11 @@
         "@repo/typescript-config": "*",
         "@types/bun": "latest",
         "concurrently": "^9.2.1",
-        "nodemon": "^3.1.11",
+        "nodemon": "^3.1.11"
       },
       "peerDependencies": {
-        "typescript": "^5",
-      },
+        "typescript": "^5"
+      }
     },
     "packages/db": {
       "name": "@repo/db",
@@ -86,14 +86,14 @@
         "@prisma/client": "^7.2.0",
         "better-auth": "^1.4.15",
         "dotenv": "^17.2.3",
-        "pg": "^8.16.3",
+        "pg": "^8.16.3"
       },
       "devDependencies": {
         "@repo/typescript-config": "*",
         "@types/bun": "latest",
         "prisma": "^7.2.0",
-        "typescript": "^5",
-      },
+        "typescript": "^5"
+      }
     },
     "packages/eslint-config": {
       "name": "@repo/eslint-config",
@@ -109,45 +109,45 @@
         "eslint-plugin-turbo": "^2.7.1",
         "globals": "^16.5.0",
         "typescript": "^5.9.2",
-        "typescript-eslint": "^8.50.0",
-      },
+        "typescript-eslint": "^8.50.0"
+      }
     },
     "packages/redis-client": {
       "name": "@repo/redis-client",
       "dependencies": {
-        "redis": "^5.10.0",
+        "redis": "^5.10.0"
       },
       "devDependencies": {
         "@repo/typescript-config": "*",
-        "@types/bun": "latest",
+        "@types/bun": "latest"
       },
       "peerDependencies": {
-        "typescript": "^5",
-      },
+        "typescript": "^5"
+      }
     },
     "packages/types": {
       "name": "@repo/types",
       "dependencies": {
         "uuid": "^13.0.0",
-        "zod": "^4.3.5",
+        "zod": "^4.3.5"
       },
       "devDependencies": {
-        "@types/bun": "latest",
+        "@types/bun": "latest"
       },
       "peerDependencies": {
-        "typescript": "^5",
-      },
+        "typescript": "^5"
+      }
     },
     "packages/typescript-config": {
       "name": "@repo/typescript-config",
-      "version": "0.0.0",
+      "version": "0.0.0"
     },
     "packages/ui": {
       "name": "@repo/ui",
       "version": "0.0.0",
       "dependencies": {
         "react": "^19.2.0",
-        "react-dom": "^19.2.0",
+        "react-dom": "^19.2.0"
       },
       "devDependencies": {
         "@repo/eslint-config": "*",
@@ -156,9 +156,9 @@
         "@types/react": "19.2.2",
         "@types/react-dom": "19.2.2",
         "eslint": "^9.39.1",
-        "typescript": "5.9.2",
-      },
-    },
+        "typescript": "5.9.2"
+      }
+    }
   },
   "packages": {
     "@babel/code-frame": ["@babel/code-frame@7.28.6", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.28.5", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-JYgintcMjRiCvS8mMECzaEn+m3PfoQiyqukOMCCVQtoJGYJw8j/8LBJEiqkHLkfwCcs74E3pbAUFNg7d9VNJ+Q=="],

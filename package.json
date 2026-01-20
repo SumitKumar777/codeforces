@@ -7,7 +7,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "auth:generate": "npx better-auth generate --output ./packages/db/prisma/schema.prisma --config ./apps/backend/src/lib/auth.ts "
+    "auth:generate": "bun x better-auth generate --output ./packages/db/prisma/schema.prisma --config ./apps/backend/src/lib/auth.ts "
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

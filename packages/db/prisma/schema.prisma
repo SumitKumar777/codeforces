@@ -14,106 +14,161 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid())
-  email String @unique
-  name  String?
-  password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  submission Submissions[]
+  id            String        @id @default(uuid())
+  email         String        @unique
+  name          String?
+  password      String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  submission    Submissions[]
+  emailVerified Boolean       @default(false)
+  image         String?
+  role          String?
+  banned        Boolean?      @default(false)
+  banReason     String?
+  banExpires    DateTime?
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("user")
 }
 
 model Admin {
-  id    String @id @default(uuid())
-  email String @unique
-  name  String?
-  password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String     @id @default(uuid())
+  email           String     @unique
+  name            String?
+  password        String
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
   createdProblems Problems[]
 }
 
 //! problem schema should also have cpu limit and memory limit according to the question and also 
 
 model Problems {
-  id  Int @id @default(autoincrement())
-  adminId String 
-  title String
-  description String
-  inputStatement String
+  id              Int               @id @default(autoincrement())
+  adminId         String
+  title           String
+  description     String
+  inputStatement  String
   outputStatement String
   visibleTestCase VisibleTestCase[]
-  hiddenTestCase HiddenTestCase[]
-  admin  Admin @relation(fields: [adminId], references: [id])
+  hiddenTestCase  HiddenTestCase[]
+  admin           Admin             @relation(fields: [adminId], references: [id])
 
 }
 
-model VisibleTestCase{
-  id   String @id @default(uuid())
-  problemId  Int  
-  input String 
-  output String
-  order  Int
-  problem Problems @relation(fields: [problemId], references: [id], onDelete: Cascade)
+model VisibleTestCase {
+  id        String   @id @default(uuid())
+  problemId Int
+  input     String
+  output    String
+  order     Int
+  problem   Problems @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
   @@index([problemId])
 }
-
 
 model HiddenTestCase {
-  id String @id @default(uuid())
-  problemId Int 
-  input String
-  output String
-  order Int
-  problem Problems @relation(fields: [problemId], references: [id] , onDelete: Cascade)
+  id        String   @id @default(uuid())
+  problemId Int
+  input     String
+  output    String
+  order     Int
+  problem   Problems @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
   @@index([problemId])
 }
 
-
 model Submissions {
-  id String @id @default(uuid())
-  userId String 
-  problemId Int 
-  language  String
-  code String 
-  state  SubmissionState @default(PENDING)
-  verdict  SubmissionVerdict @default(PENDING)
-  errorMessage String? @default("")
-  AttemptedAt DateTime @default(now())
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String            @id @default(uuid())
+  userId       String
+  problemId    Int
+  language     LanguageType @default(CPP)
+  code         String
+  state        SubmissionState   @default(PENDING)
+  verdict      SubmissionVerdict @default(PENDING)
+  errorMessage String?           @default("")
+  AttemptedAt  DateTime          @default(now())
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
-
 
 enum SubmissionState {
   PENDING
   FAILED
-  PROCESSING  
+  PROCESSING
   SUCCESS
 }
 
-// enum LanguageType { 
-//   CPP
-//   JS
-//   PY
-//   RUST
-//   GO
-// }
-
-
+enum LanguageType { 
+  CPP
+  JS
+  PY
+  RUST
+  GO
+}
 
 enum SubmissionVerdict {
-  AC   // Accepted
-  WA   // Wrong Answer
-  CE   // Compilation Error
-  RE   // Runtime Error
-  TLE  // Time Limit Exceeded
-  MLE  // Memory Limit Exceeded
-  OLE  // Output Limit Exceeded
-  PE   // Presentation Error
-  ILE  // Idleness Limit Exceeded
-  SV   // Security Violation / Restricted Function
-  JE   // Judge Error
+  AC // Accepted
+  WA // Wrong Answer
+  CE // Compilation Error
+  RE // Runtime Error
+  TLE // Time Limit Exceeded
+  MLE // Memory Limit Exceeded
+  OLE // Output Limit Exceeded
+  PE // Presentation Error
+  ILE // Idleness Limit Exceeded
+  SV // Security Violation / Restricted Function
+  JE // Judge Error
   SKIPPED // Not evaluated / skipped
   PENDING //FOR DEFAULT VALUE
+}
+
+model Session {
+  id             String   @id
+  expiresAt      DateTime
+  token          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  impersonatedBy String?
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }

@@ -1,12 +1,17 @@
-  {
-       "extends": "./packages/typescript-config/base.json",
-       "compilerOptions": {
-         "forceConsistentCasingInFileNames": true,
-         "baseUrl": ".",
-         "paths": {
-           "@repo/*": ["./packages/*/src"]
-         }
-       },
-       "include": ["apps/**/*", "packages/**/*"],
-       "exclude": ["node_modules", "dist"]
-     }
+{
+  "extends": "./packages/typescript-config/base.json",
+  "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@repo/db": ["./packages/db/src"],
+      "@repo/types": ["./packages/types/src"],
+      "@repo/redis-client": ["./packages/redis-client/src"],
+      "@repo/ui": ["./packages/ui/src"],
+      "@repo/eslint-config": ["./packages/eslint-config/src"],
+      "@repo/typescript-config": ["./packages/typescript-config/src"]
+    }
+  },
+  "include": ["apps/**/*", "packages/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

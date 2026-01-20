@@ -1,32 +1,32 @@
 {
-  "extends": "@repo/typescript-config/base.json",
-  "compilerOptions": {
-    // Environment setup & latest features
-    "lib": ["ESNext"],
-    "target": "ESNext",
-    "forceConsistentCasingInFileNames": true,
-    "moduleDetection": "force",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "outDir": "./dist",
+	"extends": "@repo/typescript-config/nextjs.json",
+	"compilerOptions": {
+		// Environment setup & latest features
+		"lib": ["ESNext"],
+		"target": "ESNext",
+		"forceConsistentCasingInFileNames": true,
+		"moduleDetection": "force",
+		"jsx": "react-jsx",
+		"allowJs": true,
+		"outDir": "./dist",
 
-    // Bundler mode
-    "allowImportingTsExtensions": false,
-    "verbatimModuleSyntax": true,
-    "noEmit": false ,
+		// Bundler mode
+		"allowImportingTsExtensions": false,
+		"verbatimModuleSyntax": true,
+		"noEmit": false,
 
-    // Best practices
-    "strict": true,
-    "skipLibCheck": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
+		// Best practices
+		"strict": true,
+		"skipLibCheck": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
 
-    // Some stricter flags (disabled by default)
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
-  },
-  "include": ["src/**/*", "script/**/*"],
-  "exclude": ["node_modules","dist"]
+		// Some stricter flags (disabled by default)
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"noPropertyAccessFromIndexSignature": false
+	},
+	"include": ["src/**/*", "script/**/*"],
+	"exclude": ["node_modules", "dist"]
 }
