@@ -17,7 +17,6 @@ model User {
   id            String        @id @default(uuid())
   email         String        @unique
   name          String?
-  password      String
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   submission    Submissions[]
@@ -37,7 +36,6 @@ model Admin {
   id              String     @id @default(uuid())
   email           String     @unique
   name            String?
-  password        String
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   createdProblems Problems[]

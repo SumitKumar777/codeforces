@@ -4,7 +4,7 @@
 	"type": "module",
 	"private": true,
 	"dependencies": {
-		"@repo/db": "*",
+		"@repo/auth": "*",
 		"better-auth": "^1.4.15",
 		"cors": "^2.8.5",
 		"dockerode": "^4.0.9",

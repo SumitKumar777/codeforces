@@ -1,0 +1,19 @@
+{
+	"name": "@repo/auth",
+	"private": true,
+  "type": "module",
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@repo/typescript-config": "*"
+	},
+  "exports":{
+    ".":"./src/permission.ts"
+  },
+
+	"dependencies": {
+		"better-auth": "^1.4.15"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
+}

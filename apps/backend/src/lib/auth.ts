@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin as adminPlugin } from "better-auth/plugins";
 
-import { ac, admin, user, teacher } from "@repo/db";
+import { ac, admin, user, teacher } from "@repo/auth";
 
 import { prisma } from "@repo/db";
 export const auth = betterAuth({
@@ -24,6 +24,6 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
-    autoSignIn: true,
+    autoSignIn: false,
   },
 });

@@ -47,19 +47,14 @@ adminRouter.post("/signin", async (req, res) => {
 				data:{
 					name:data.name,
 					email:data.email,
-					password:data.password
+	
 				}
 			})
 
 			return res.json({success:true,message:"admin created successfully",admin:createAdmin})
 		}
 
-		// admin exists , check password
-
-		if(findAdmin.password !== data.password){
-			return res.json({success:false,message:"invalid password"})
-		}
-
+	
 		return res.json({success:true,message:"admin signed in successfully",admin:findAdmin})
 
 

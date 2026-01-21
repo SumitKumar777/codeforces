@@ -6,14 +6,24 @@ import { adminRouter } from "./admin/admin.js";
 import cors from "cors"
 import  "./codeExec/consumer/consumer.js";
 
+
+import { auth } from "./lib/auth.js";
+import { toNodeHandler } from "better-auth/node";
+
+
 const app: Express = express();
 const PORT = process.env.PORT || 3001;
+
+
 
 export const userConnection:Map<string,Response>= new Map();
 
 app.use(express.json());
 
 app.use(cors({ origin:"http://localhost:3000",credentials:true }))
+
+
+app.use("/api/auth", toNodeHandler(auth.handler))
 
 app.get("/",(req,res)=>{
   res.send("hi from the server");
@@ -23,6 +33,8 @@ app.use("/code",codeExecRouter);
 app.use("/shared",sharedApiRouter);
 app.use("/admin",adminRouter);
 
+
+// Implement the events sending to the frontend on question submission
 app.get('/events', (req, res) => {
 
   res.setHeader('Content-Type', 'text/event-stream');

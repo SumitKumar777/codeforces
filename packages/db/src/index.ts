@@ -3,8 +3,6 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 export * from "../generated/prisma/client.js";
 
-export * from "./auth/permission.js";
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
