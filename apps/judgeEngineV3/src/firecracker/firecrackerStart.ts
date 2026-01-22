@@ -6,7 +6,7 @@ const SOCKET_PATH = "/tmp/firecracker/firecracker.socket";
 
 /* ---------------- utils ---------------- */
 
-const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 async function waitForSocket(path: string, retries = 50) {
    for (let i = 0; i < retries; i++) {
@@ -28,12 +28,16 @@ function fcPut(path: string, body: object): Promise<void> {
             socketPath: SOCKET_PATH,
             path,
             headers: {
-               "Content-Type": "application/json"
-            }
+               "Content-Type": "application/json",
+            },
          },
          res => {
             let data = "";
-            res.on("data", chunk => (data += chunk));
+
+            res.on("data", chunk => {
+               data += chunk;
+            });
+
             res.on("end", () => {
                if ((res.statusCode ?? 500) >= 400) {
                   reject(
