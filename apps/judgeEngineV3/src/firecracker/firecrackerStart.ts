@@ -66,9 +66,17 @@ export async function startFirecracker() {
    return fc;
 }
 
+export async function configureMachine() {
+   await fcPut("/machine-config", {
+      vcpu_count: 1,
+      mem_size_mib: 512,
+      smt: false
+   });
+}
+
 export async function configureKernel() {
    await fcPut("/boot-source", {
-      kernel_image_path: "./hello-vmlinux.bin",
+      kernel_image_path: "/home/sumitkumar/hello-vmlinux.bin",
       boot_args: "console=ttyS0 reboot=k panic=1 pci=off",
    });
 }
@@ -76,11 +84,12 @@ export async function configureKernel() {
 export async function configureRootfs() {
    await fcPut("/drives/rootfs", {
       drive_id: "rootfs",
-      path_on_host: "./hello-rootfs.ext4",
+      path_on_host: "/home/sumitkumar/hello-rootfs.ext4",
       is_root_device: true,
       is_read_only: false,
    });
 }
+
 
 export async function startMicroVM() {
    await fcPut("/actions", {
