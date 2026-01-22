@@ -1,9 +1,8 @@
 import { configureKernel, configureMachine, configureRootfs, startFirecracker, startMicroVM } from "./firecracker/firecrackerStart.js";
 
-
 async function main() {
-   await configureMachine();
    await startFirecracker();
+   await configureMachine();
    await configureKernel();
    await configureRootfs();
    await startMicroVM();

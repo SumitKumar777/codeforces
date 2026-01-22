@@ -4,7 +4,7 @@ import * as http from "http";
 
 const SOCKET_PATH = "/tmp/firecracker/firecracker.socket";
 
-/* -------------------- utils -------------------- */
+/* ---------------- utils ---------------- */
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -27,14 +27,24 @@ function fcPut(path: string, body: object): Promise<void> {
             method: "PUT",
             socketPath: SOCKET_PATH,
             path,
-            headers: { "Content-Type": "application/json" },
+            headers: {
+               "Content-Type": "application/json"
+            }
          },
          res => {
-            if ((res.statusCode ?? 500) >= 400) {
-               reject(new Error(`Firecracker API error ${res.statusCode}`));
-            } else {
-               resolve();
-            }
+            let data = "";
+            res.on("data", chunk => (data += chunk));
+            res.on("end", () => {
+               if ((res.statusCode ?? 500) >= 400) {
+                  reject(
+                     new Error(
+                        `Firecracker API error ${res.statusCode}: ${data}`
+                     )
+                  );
+               } else {
+                  resolve();
+               }
+            });
          }
       );
 
@@ -44,18 +54,14 @@ function fcPut(path: string, body: object): Promise<void> {
    });
 }
 
-/* -------------------- steps -------------------- */
+/* ---------------- lifecycle ---------------- */
 
 export async function startFirecracker() {
    await fs.mkdir("/tmp/firecracker", { recursive: true });
    await fs.rm(SOCKET_PATH, { force: true });
 
-   const fc = spawn("sudo", [
-      "firecracker",
-      "--api-sock",
-      SOCKET_PATH,
-   ], {
-      stdio: ["ignore", "pipe", "pipe"],
+   const fc = spawn("firecracker", ["--api-sock", SOCKET_PATH], {
+      stdio: ["ignore", "pipe", "pipe"]
    });
 
    fc.stdout.on("data", d => console.log("[fc]", d.toString()));
@@ -65,6 +71,8 @@ export async function startFirecracker() {
    await waitForSocket(SOCKET_PATH);
    return fc;
 }
+
+/* ---------------- REQUIRED STEPS ---------------- */
 
 export async function configureMachine() {
    await fcPut("/machine-config", {
@@ -77,7 +85,7 @@ export async function configureMachine() {
 export async function configureKernel() {
    await fcPut("/boot-source", {
       kernel_image_path: "/home/sumitkumar/hello-vmlinux.bin",
-      boot_args: "console=ttyS0 reboot=k panic=1 pci=off",
+      boot_args: "console=ttyS0 reboot=k panic=1 pci=off"
    });
 }
 
@@ -86,16 +94,12 @@ export async function configureRootfs() {
       drive_id: "rootfs",
       path_on_host: "/home/sumitkumar/hello-rootfs.ext4",
       is_root_device: true,
-      is_read_only: false,
+      is_read_only: false
    });
 }
-
 
 export async function startMicroVM() {
    await fcPut("/actions", {
-      action_type: "InstanceStart",
+      action_type: "InstanceStart"
    });
 }
-
-/* -------------------- main -------------------- */
-
