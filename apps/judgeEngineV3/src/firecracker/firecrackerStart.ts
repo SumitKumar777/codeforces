@@ -27,8 +27,10 @@ function fcPut(path: string, body: object): Promise<void> {
             method: "PUT",
             socketPath: SOCKET_PATH,
             path,
+            agent: false,               
             headers: {
                "Content-Type": "application/json",
+               "Connection": "close",      
             },
          },
          res => {
@@ -58,23 +60,42 @@ function fcPut(path: string, body: object): Promise<void> {
    });
 }
 
-/* ---------------- lifecycle ---------------- */
 
+/* ---------------- lifecycle ---------------- */
 export async function startFirecracker() {
    await fs.mkdir("/tmp/firecracker", { recursive: true });
    await fs.rm(SOCKET_PATH, { force: true });
 
    const fc = spawn("firecracker", ["--api-sock", SOCKET_PATH], {
-      stdio: ["ignore", "pipe", "pipe"]
+      stdio: ["pipe", "pipe", "pipe"],
    });
 
-   fc.stdout.on("data", d => console.log("[fc]", d.toString()));
-   fc.stderr.on("data", d => console.error("[fc err]", d.toString()));
-   fc.on("exit", code => console.error("Firecracker exited:", code));
+   let exited = false;
 
-   await waitForSocket(SOCKET_PATH);
-   return fc;
+   fc.on("exit", code => {
+      exited = true;
+      console.error("Firecracker exited with code", code);
+   });
+
+   fc.stderr.on("data", d => {
+      console.error("[fc err]", d.toString());
+   });
+
+   for (let i = 0; i < 50; i++) {
+      if (exited) {
+         throw new Error("Firecracker exited before creating socket");
+      }
+      try {
+         await fs.stat(SOCKET_PATH);
+         return fc;
+      } catch {
+         await sleep(100);
+      }
+   }
+
+   throw new Error("Firecracker socket not created");
 }
+
 
 /* ---------------- REQUIRED STEPS ---------------- */
 
