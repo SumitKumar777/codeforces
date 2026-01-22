@@ -1,11 +1,10 @@
-import { configureKernel, configureNetwork, configureRootfs, startFirecracker, startMicroVM } from "./firecracker/firecrackerStart.js";
+import { configureKernel, configureRootfs, startFirecracker, startMicroVM } from "./firecracker/firecrackerStart.js";
 
 
 async function main() {
    await startFirecracker();
    await configureKernel();
    await configureRootfs();
-   await configureNetwork(); 
    await startMicroVM();
 
    console.log("MicroVM started successfully");

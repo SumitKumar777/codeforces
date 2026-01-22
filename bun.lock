@@ -75,6 +75,21 @@
         "typescript": "5.9.2",
       },
     },
+    "apps/judgeEngineV3": {
+      "name": "@repo/judgeenignev3",
+      "devDependencies": {
+        "@repo/db": "*",
+        "@repo/redis-client": "*",
+        "@repo/types": "*",
+        "@repo/typescript-config": "*",
+        "@types/bun": "latest",
+        "concurrently": "^9.2.1",
+        "nodemon": "^3.1.11",
+      },
+      "peerDependencies": {
+        "typescript": "^5",
+      },
+    },
     "apps/judgeEnigne": {
       "name": "judgeenigne",
       "devDependencies": {
@@ -485,6 +500,8 @@
     "@repo/db": ["@repo/db@workspace:packages/db"],
 
     "@repo/eslint-config": ["@repo/eslint-config@workspace:packages/eslint-config"],
+
+    "@repo/judgeenignev3": ["@repo/judgeenignev3@workspace:apps/judgeEngineV3"],
 
     "@repo/redis-client": ["@repo/redis-client@workspace:packages/redis-client"],
 
