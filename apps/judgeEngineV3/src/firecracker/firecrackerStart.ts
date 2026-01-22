@@ -6,6 +6,40 @@ const SOCKET_PATH = "/tmp/firecracker/firecracker.socket";
 
 /* ---------------- utils ---------------- */
 
+
+
+async function waitForApiReady(retries = 50) {
+   for (let i = 0; i < retries; i++) {
+      try {
+         await new Promise<void>((resolve, reject) => {
+            const req = http.request(
+               {
+                  method: "GET",
+                  socketPath: SOCKET_PATH,
+                  path: "/version",
+                  agent: false,
+                  headers: { "Connection": "close" },
+               },
+               res => {
+                  res.resume(); // drain
+                  res.on("end", () => {
+                     if (res.statusCode === 200) resolve();
+                     else reject();
+                  });
+               }
+            );
+            req.on("error", reject);
+            req.end();
+         });
+         return;
+      } catch {
+         await sleep(50);
+      }
+   }
+   throw new Error("Firecracker API not ready");
+}
+
+
 export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 async function waitForSocket(path: string, retries = 50) {
@@ -81,19 +115,23 @@ export async function startFirecracker() {
       console.error("[fc err]", d.toString());
    });
 
+   // 1️⃣ Wait for socket creation
    for (let i = 0; i < 50; i++) {
       if (exited) {
          throw new Error("Firecracker exited before creating socket");
       }
       try {
          await fs.stat(SOCKET_PATH);
-         return fc;
+         break; 
       } catch {
          await sleep(100);
       }
    }
 
-   throw new Error("Firecracker socket not created");
+   // 2️⃣ Wait for API readiness
+   await waitForApiReady();
+
+   return fc;
 }
 
 
