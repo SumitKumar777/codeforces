@@ -6,7 +6,7 @@ SIZE_MB="${SIZE_MB:-50}"
 MOUNT="${MOUNT:-/mnt/problem-image}"
 PROBLEM="${PROBLEM:?PROBLEM environment variable is required}"
 
-IMAGE="testcases/${PROBLEM}.ext4"
+IMAGE="problemImages/${PROBLEM}.ext4"
 
 
 if mountpoint -q "$MOUNT"; then
