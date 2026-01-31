@@ -1,30 +1,21 @@
-import {
-   configureKernel,
-   configureMachine,
-   configureRootfs,
-   startFirecracker,
-   startMicroVM,
-   sleep,
-} from "./firecracker/firecrackerStart.js";
+import path from "path";
+import { createTestCaseImage, projectRoot } from "./firecracker/ioOperation.js";
+import { fileURLToPath } from "url";
+
+import {promises as fs} from "fs";
+
+
+
+
+
 
 async function main() {
-   await startFirecracker();
+  const submissionData = JSON.parse(await fs.readFile(path.join(projectRoot, "submission/dummysubmission.json"), "utf-8"));
+  console.log(submissionData);
 
-   await configureMachine();
-   await sleep(50);
-
-   await configureKernel();
-   await sleep(50);
-
-   await configureRootfs();
-   await sleep(50);
-
-   await startMicroVM();
-
-   console.log("MicroVM started successfully");
+  for(const sub of submissionData){
+     createTestCaseImage(sub).catch(err => console.log(err));
+  }
 }
 
-main().catch(err => {
-   console.error("FAILED:", err);
-   process.exit(1);
-});
+main().catch(err=>console.log(err));
