@@ -3,7 +3,7 @@ set -e
 
 
 SIZE_MB="${SIZE_MB:-50}"
-MOUNT="${MOUNT:-/mnt/problem-image}"
+MOUNT="${MOUNT:-/mnt/problem-image}-$$"
 PROBLEM="${PROBLEM:?PROBLEM environment variable is required}"
 
 IMAGE="problemImages/${PROBLEM}.ext4"
