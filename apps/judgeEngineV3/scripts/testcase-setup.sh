@@ -30,7 +30,12 @@ mkfs.ext4 -F "$IMAGE"
 mount -o loop "$IMAGE" "$MOUNT"
 
 
-cp -r "testcases/${PROBLEM}/." "$MOUNT/problem"
+[ -d "testcases/${PROBLEM}" ] || {
+  echo "Problem ${PROBLEM} not found"
+  exit 1
+}
+
+cp -r "testcases/${PROBLEM}/." "$MOUNT/problem/"
 chown -R root:root "$MOUNT"
 find "$MOUNT" -type f -exec chmod 444 {} \;
 find "$MOUNT" -type d -exec chmod 555 {} \;
