@@ -45,7 +45,7 @@ umount "$MOUNT"
 
 rmdir "$MOUNT"
 
-rmdir "testcases/${PROBLEM}"
+rm -rf "testcases/${PROBLEM}"
 
 echo "Image ready: $IMAGE"
 

@@ -52,9 +52,28 @@ const scriptPath: string = path.join(projectRoot, "scripts/testcase-setup.sh");
 
 // this runScript function will start the script and create the testcaseImage and then we will delete
 const runScript = async (problemId:string) => {
+
+   // check if the image exists for that problem 
+
+   try {
+      const imageFound = await profs.stat(path.join(projectRoot,`problemImages/problem-${problemId}`));
+
+      console.log(imageFound);
+
+      if(imageFound.isDirectory()){
+         return ;
+      }
+
+   } catch (error) {
+      console.log("error while checking image exists",error);
+   }
+
 	return new Promise<void>((resolve, reject) => {
 		// ! add runtime variable in this script right now node added just wanted to test if this is working
-		console.log("scriptPath inside", scriptPath);
+
+
+     
+
       const runScript = spawn( "sudo",
          ["--preserve-env=PROBLEM","bash",
          scriptPath],
