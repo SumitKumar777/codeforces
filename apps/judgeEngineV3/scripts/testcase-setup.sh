@@ -35,7 +35,7 @@ mount -o loop "$IMAGE" "$MOUNT"
   exit 1
 }
 
-cp -r "testcases/${PROBLEM}/." "$MOUNT/problem/"
+cp -r "testcases/${PROBLEM}" "$MOUNT/problem/"
 chown -R root:root "$MOUNT"
 find "$MOUNT" -type f -exec chmod 444 {} \;
 find "$MOUNT" -type d -exec chmod 555 {} \;
