@@ -51,30 +51,28 @@ const checkExists = async (path: string, type: PathType) => {
 const scriptPath: string = path.join(projectRoot, "scripts/testcase-setup.sh");
 
 // this runScript function will start the script and create the testcaseImage and then we will delete
-const runScript = async (problemId:string) => {
+const runScript = async (problemId: string) => {
+	// check if the image exists for that problem
 
-   // check if the image exists for that problem 
-
-   
+	if (await checkProblemImageExist(problemId)) {
+		console.log("imageExists in runscript");
+		return true;
+	}
 
 	return new Promise<void>((resolve, reject) => {
 		// ! add runtime variable in this script right now node added just wanted to test if this is working
 
-
-     
-
-      const runScript = spawn( "sudo",
-         ["--preserve-env=PROBLEM","bash",
-         scriptPath],
-         {
-            stdio: "inherit",
-            env: {
-               ...process.env,  
-               PROBLEM: `problem-${problemId}`
-            }
-         }
-      );
-
+		const runScript = spawn(
+			"sudo",
+			["--preserve-env=PROBLEM", "bash", scriptPath],
+			{
+				stdio: "inherit",
+				env: {
+					...process.env,
+					PROBLEM: `problem-${problemId}`,
+				},
+			},
+		);
 
 		runScript.on("error", (err) => {
 			console.log("error is ", err);
@@ -100,9 +98,11 @@ const checkProblemImageExist = async (problemId: string) => {
 
 		const problemImagePath = path.join(projectRoot, "problemImages");
 
-		await profs.mkdir(problemImagePath,{recursive:true});
+		await profs.mkdir(problemImagePath, { recursive: true });
 
-		if (await profs.stat(path.join(problemImagePath, `problem-${problemId}.ext4`))) {
+		if (
+			await profs.stat(path.join(problemImagePath, `problem-${problemId}.ext4`))
+		) {
 			return true;
 		}
 	} catch (error) {
@@ -123,14 +123,14 @@ const createTestCaseFiles = async (
 
 		if (await checkProblemImageExist(problem_id)) {
 			console.log("imageExists");
-			return true
+			return true;
 		}
 
 		if (!(await checkExists(problemPath, "dir"))) {
 			await profs.mkdir(problemPath);
 		} else {
 			console.log("already exists problem");
-			return true
+			return true;
 		}
 
 		let count = 0;
@@ -147,10 +147,10 @@ const createTestCaseFiles = async (
 		}
 		console.log("files created successfully");
 
-		return true
+		return true;
 	} catch (error) {
 		console.log("error in the creatingTestCaseFile", error);
-      return false;
+		return false;
 	}
 };
 
@@ -165,9 +165,9 @@ export const createTestCaseImage = async (submission: Submission) => {
 			submission.testcases,
 		);
 
-      if(!testCaseFilesCreationResponse){
-         throw new Error("testcaseFile  not created")
-      }
+		if (!testCaseFilesCreationResponse) {
+			throw new Error("testcaseFile  not created");
+		}
 
 		const result = await runScript(submission.problem_id);
 		console.log("result of the script", result);
