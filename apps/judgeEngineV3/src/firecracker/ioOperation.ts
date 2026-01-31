@@ -55,18 +55,7 @@ const runScript = async (problemId:string) => {
 
    // check if the image exists for that problem 
 
-   try {
-      const imageFound = await profs.stat(path.join(projectRoot,`problemImages/problem-${problemId}.ext4`));
-
-      console.log(imageFound);
-
-      if(imageFound.isFile()){
-         return ;
-      }
-
-   } catch (error) {
-      console.log("error while checking image exists",error);
-   }
+   
 
 	return new Promise<void>((resolve, reject) => {
 		// ! add runtime variable in this script right now node added just wanted to test if this is working
@@ -109,11 +98,11 @@ const checkProblemImageExist = async (problemId: string) => {
 			return;
 		}
 
-		const problemImagePath = path.join(projectRoot, "problemImage");
+		const problemImagePath = path.join(projectRoot, "problemImages");
 
 		await profs.mkdir(problemImagePath,{recursive:true});
 
-		if (await profs.stat(path.join(problemImagePath, `problem-${problemId}`))) {
+		if (await profs.stat(path.join(problemImagePath, `problem-${problemId}.ext4`))) {
 			return true;
 		}
 	} catch (error) {
