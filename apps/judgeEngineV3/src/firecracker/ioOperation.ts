@@ -56,11 +56,12 @@ const runScript = async (problemId:string) => {
    // check if the image exists for that problem 
 
    try {
-      const imageFound = await profs.stat(path.join(projectRoot,`problemImages/problem-${problemId}`));
+      const imageFound = await profs.stat(path.join(projectRoot,`problemImages/problem-${problemId}.ext4[ -f problem-1.ext4 ] && echo "file"
+`));
 
       console.log(imageFound);
 
-      if(imageFound.isDirectory()){
+      if(imageFound.isFile()){
          return ;
       }
 
