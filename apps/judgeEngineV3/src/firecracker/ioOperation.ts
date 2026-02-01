@@ -21,7 +21,7 @@ export const projectRoot: string = (() => {
 	throw new Error("folder is not found");
 })();
 
-interface Submission {
+export interface Submission {
 	submission_id: string;
 	problem_id: string;
 	language: string;
