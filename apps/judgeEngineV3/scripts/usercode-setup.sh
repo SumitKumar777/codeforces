@@ -1,17 +1,18 @@
 #!/bin/sh
 
 
-
+SUB_ID="${SUB_ID:?SUB_ID submission id is required usercode image}"
 MOUNT="${MOUNT:-/mnt/usercode}-$$"
 USERCODE="${USERCODE:-userSourceCode}"
 
 
-IMAGE="userSourceImage/sourcecode.ext4"
+IMAGE="userSourceImage/sourcecode-$SUB_ID.ext4"
 
 
 if mountpoint -q "$MOUNT"; then
   ehco "unmounting existing mount at $MOUNT"
   umount "$MOUNT"
+fi 
 
 
 
