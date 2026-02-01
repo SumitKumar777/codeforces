@@ -10,7 +10,7 @@ async function main() {
     const submissionData = JSON.parse(await fs.readFile(path.join(projectRoot, "submission/dummysubmission.json"), "utf-8"));
 
     for (const sub of submissionData) {
-      //  await createTestCaseImage(sub);
+       await createTestCaseImage(sub);
        await createUserCodeImage(sub);
     }
 

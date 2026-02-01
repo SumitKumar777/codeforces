@@ -23,7 +23,7 @@ fi
 
 mkdir -p $MOUNT
 
-mkdir -p (dirname $IMAGE)
+mkdir -p "$(dirname "$IMAGE")"
 
 dd if=/dev/zero of=$IMAGE bs=1M count=128
 mkfs.ext4 -F $IMAGE
