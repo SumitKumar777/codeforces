@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 
@@ -35,10 +35,13 @@ mount -o loop "$IMAGE" "$MOUNT"
   exit 1
 }
 
+mkdir -p "$MOUNT/problem"
+
 cp -r "testcases/${PROBLEM}" "$MOUNT/problem/"
 chown -R root:root "$MOUNT"
-find "$MOUNT" -type f -exec chmod 444 {} \;
-find "$MOUNT" -type d -exec chmod 555 {} \;
+find "$MOUNT" -type f -exec chmod 444 {} \; || true
+find "$MOUNT" -type d -exec chmod 555 {} \; || true
+
 
 sync
 umount "$MOUNT"
