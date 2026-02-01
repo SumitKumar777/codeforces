@@ -27,6 +27,11 @@ out/
 build
 dist
 
+#Build images
+*.squashfs
+*.ext4
+*.img
+*.qcow2
 
 # Debug
 npm-debug.log*
