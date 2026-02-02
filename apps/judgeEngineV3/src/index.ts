@@ -3,6 +3,7 @@ import { createTestCaseImage, projectRoot } from "./firecracker/ioOperation.js";
 
 import {promises as fs} from "fs";
 import { createUserCodeImage } from "./firecracker/usercodeImage.js";
+import { startFirecrackerProcess } from "./firecracker/firecrackerStart.js";
 
 
 async function main() {
@@ -13,6 +14,10 @@ async function main() {
        await createTestCaseImage(sub);
        await createUserCodeImage(sub);
     }
+
+    const firecrackerStartResponse= await startFirecrackerProcess();
+    console.log("fireResponse",firecrackerStartResponse);
+
 
 
  } catch (error) {

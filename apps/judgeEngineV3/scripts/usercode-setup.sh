@@ -53,7 +53,8 @@ umount "$MOUNT"
 
 rmdir "$MOUNT"
 
-rm -rf "$USERCODE/*"
+
+rm -f "$USERCODE/*"
 
 echo "Image ready: $IMAGE"
 
