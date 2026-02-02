@@ -79,7 +79,7 @@ const runScript = async (problemId: string) => {
 			reject(err);
 		});
 
-		runScript.on("exit", (code, signal: NodeJS.Signals) => {
+		runScript.on("close", (code, signal: NodeJS.Signals) => {
 			if (code === 0) {
 				resolve();
 			} else {
@@ -153,6 +153,8 @@ const createTestCaseFiles = async (
 		return false;
 	}
 };
+
+// ! should return testcase Image for that particular problem 
 
 export const createTestCaseImage = async (submission: Submission) => {
 	try {
