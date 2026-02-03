@@ -162,8 +162,8 @@ const confRequest = async (
    socketPath: string,
    drive_id: string,
    title: string,
-   read_only: boolean = true,
    root_Device: boolean = false,
+   read_only: boolean = true,
 ) => {
    const requestBody = JSON.stringify({
       drive_id,
@@ -249,27 +249,35 @@ export const startMicroVm = async (
 
       const inputReadOnly = type === "compilation" ? false : true
 
+      // compilor rootfs
       await confRequest(
          rootfsImage,
          apiSocket,
          "rootfs",
          "Rootfs",
          true,
+         true,
       );
+
+      console.log(`input readonly ${inputReadOnly}  type is => ${type} `)
+      // inputimage
       await confRequest(
          inputImagePath,
          apiSocket,
          "input",
          "Input",
+         false,
          inputReadOnly
 
-
       );
+      // output Image
       await confRequest(
          outputImagePath,
          apiSocket,
          "output",
          "Output",
+         false,
+         false,
       );
 
       if (type === "execution") {
@@ -278,10 +286,11 @@ export const startMicroVm = async (
             apiSocket,
             "program",
             "Program",
+            false,
+            true,
 
          );
       }
-
       await confStartVm(apiSocket)
 
    } catch (error) {

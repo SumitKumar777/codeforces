@@ -60,7 +60,10 @@ export const controller = async () => {
          throw fireCrackExecVmProcess.error
       }
 
+
       const executorVm = await startMicroVm(fireCrackExecVmProcess.apiSocket, executionRootfsImage, inputImagePath, outputImagePath, "execution", userBinaryCodePath);
+
+      console.log("executed successfully");
 
    } catch (error) {
       console.log('error in the controller ', error);
