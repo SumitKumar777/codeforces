@@ -44,9 +44,9 @@ export const controller = async (sub: Submission) => {
 
    try {
       // need to be implemented like check if we are getting the testcaseImage for that problem
-      const testCaseImage = await createTestCaseImage(sub);
+      // const testCaseImage = await createTestCaseImage(sub);
       // create a unique userSource code image  and also the binaryUserCode image which will we used to take output from the compilorvm and then will send that as input to the executionvm 
-      const userSourceCodeImage = await createUserCodeImage(sub);
+      //const userSourceCodeImage = await createUserCodeImage(sub);
 
       // will return the apiSocketpath or Error;
       const firecrackerStartResponse = await startFirecrackerProcess();
@@ -55,10 +55,14 @@ export const controller = async (sub: Submission) => {
       }
       const compilorVm = await startMicroVm(firecrackerStartResponse.apiSocket, compilerRootfsImage, userSourceCodeImagePath, userBinaryCodePath, "compilation");
 
-      const executorVm = await startMicroVm(firecrackerStartResponse.apiSocket, executionRootfsImage, inputImagePath, userBinaryCodePath, "execution", outputImagePath);
+      const fireCrackExecVmProcess = await startFirecrackerProcess();
+      if (!fireCrackExecVmProcess.success) {
+         throw fireCrackExecVmProcess.error
+      }
+
+      const executorVm = await startMicroVm(fireCrackExecVmProcess.apiSocket, executionRootfsImage, inputImagePath, userBinaryCodePath, "execution", outputImagePath);
 
    } catch (error) {
       console.log('error in the controller ', error);
-
    }
 }
