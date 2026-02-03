@@ -12,11 +12,9 @@ async function main() {
    try {
       const submissionData = JSON.parse(await fs.readFile(path.join(projectRoot, "submission/dummysubmission.json"), "utf-8"));
 
-      // for (const sub of submissionData) {
-      //    await controller(sub);
-      // }
-
-      await controller();
+      for (const sub of submissionData) {
+         await controller(sub);
+      }
 
    } catch (error) {
       console.log("error in main", error);

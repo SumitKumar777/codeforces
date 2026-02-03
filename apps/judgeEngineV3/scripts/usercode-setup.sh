@@ -6,7 +6,7 @@ MOUNT="${MOUNT:-/mnt/usercode}-$$"
 USERCODE="${USERCODE:-userSourceCode}"
 
 
-IMAGE="userSourceImage/sourcecode-$SUB_ID.ext4"
+IMAGE="$HOME/userSourceImage/$SUB_ID.ext4"
 
 
 if mountpoint -q "$MOUNT"; then
@@ -40,9 +40,9 @@ mount -o loop $IMAGE $MOUNT
 
 
 
-mkdir -p "$MOUNT/sourcecode"
+mkdir -p "$MOUNT"
 
-cp -r "$USERCODE/." "$MOUNT/sourcecode/"
+cp -r "$USERCODE/$SUB_ID/." "$MOUNT/"
 chown -R root:root "$MOUNT"
 find "$MOUNT" -type f -exec chmod 444 {} \; || true
 find "$MOUNT" -type d -exec chmod 555 {} \; || true
@@ -54,7 +54,7 @@ umount "$MOUNT"
 rmdir "$MOUNT"
 
 
-rm -f "$USERCODE/*"
+rm -f "$USERCODE/$SUB_ID"
 
 echo "Image ready: $IMAGE"
 

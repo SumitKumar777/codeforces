@@ -5,8 +5,16 @@ import { spawn } from "child_process";
 
 import { fileURLToPath } from "url";
 
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const HOME = process.env.HOME;
+
+console.log("home is ", HOME);
+
+
 
 export const projectRoot: string = (() => {
 	let dir = __dirname;
@@ -21,10 +29,12 @@ export const projectRoot: string = (() => {
 	throw new Error("folder is not found");
 })();
 
+type Language = "CPP" | "JS" | "PY"
+
 export interface Submission {
 	submission_id: string;
 	problem_id: string;
-	language: string;
+	language: Language;
 	code: string;
 	limits: { time_seconds: number; memory_mb: number };
 	testcases: { input: string; expected_output: string }[];
@@ -43,7 +53,6 @@ const checkExists = async (path: string, type: PathType) => {
 			return fileStat.isDirectory();
 		}
 	} catch (error) {
-		console.log("error in the checkExists", error);
 		return false;
 	}
 };
@@ -116,6 +125,7 @@ const createTestCaseFiles = async (
 	problem_id: string,
 	testcase: { input: string; expected_output: string }[],
 ) => {
+
 	try {
 		const testCasesPath = path.join(projectRoot, "testcases");
 		await profs.mkdir(testCasesPath, { recursive: true });
@@ -133,14 +143,16 @@ const createTestCaseFiles = async (
 			return true;
 		}
 
-		let count = 0;
+		let count = 1;
 		for (const tstCase of testcase) {
+
+			await profs.mkdir(`${problemPath}/${count}`, { recursive: true })
 			await profs.writeFile(
-				path.join(problemPath, `input-${count}.txt`),
+				path.join(problemPath, `${count}`, "input.txt"),
 				tstCase.input,
 			);
 			await profs.writeFile(
-				path.join(problemPath, `expected-${count}.txt`),
+				path.join(problemPath, `${count}`, "expected.txt"),
 				tstCase.expected_output,
 			);
 			count++;
@@ -171,9 +183,9 @@ export const createTestCaseImage = async (submission: Submission) => {
 			throw new Error("testcaseFile  not created");
 		}
 
-		const result = await runScript(submission.problem_id);
+		// const result = await runScript(submission.problem_id);
 
-		return result;
+		// return result;
 	} catch (error) {
 		console.log("error in the createTestCaseImage", error);
 	}

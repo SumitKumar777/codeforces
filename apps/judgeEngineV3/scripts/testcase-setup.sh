@@ -6,7 +6,7 @@ SIZE_MB="${SIZE_MB:-50}"
 MOUNT="${MOUNT:-/mnt/problem-image}-$$"
 PROBLEM="${PROBLEM:?PROBLEM environment variable is required}"
 
-IMAGE="problemImages/${PROBLEM}.ext4"
+IMAGE="$HOME/problem-testcase-images/${PROBLEM}.ext4"
 
 
 if mountpoint -q "$MOUNT"; then
@@ -37,7 +37,7 @@ mount -o loop "$IMAGE" "$MOUNT"
 
 mkdir -p "$MOUNT/problem"
 
-cp -r "testcases/${PROBLEM}" "$MOUNT/problem/"
+cp -r "testcases/${PROBLEM}/*" "$MOUNT/"
 chown -R root:root "$MOUNT"
 find "$MOUNT" -type f -exec chmod 444 {} \; || true
 find "$MOUNT" -type d -exec chmod 555 {} \; || true

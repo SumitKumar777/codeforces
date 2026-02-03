@@ -18,7 +18,7 @@ type StartFirecrackerResult =
 	};
 
 
-const runSpawn = (cmd: string, arg: string[]) => {
+export const runSpawn = (cmd: string, arg: string[]) => {
 	return new Promise<void>((resolve, reject) => {
 		const p = spawn(cmd, arg);
 

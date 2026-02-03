@@ -19,7 +19,7 @@ import { createUserCodeImage } from "./usercodeImage.js";
 
 
 const compilerRootfsImage = "compiler-cpp.squashfs";
-const executionRootfsImage = "rootfs-cpp.ext4";
+const executionRootfsImage = "executor.squashfs";
 const inputImagePath = "input.ext4";
 const outputImagePath = "output.ext4";
 const userSourceCodeImagePath = "usercode.ext4";
@@ -40,32 +40,34 @@ const userBinaryCodePath = "binarycode.ext4";
 // ) => {
 
 
-export const controller = async () => {
+export const controller = async (sub: Submission) => {
 
    try {
       // need to be implemented like check if we are getting the testcaseImage for that problem
-      // const testCaseImage = await createTestCaseImage(sub);
+      const testCaseImage = await createTestCaseImage(sub);
       // create a unique userSource code image  and also the binaryUserCode image which will we used to take output from the compilorvm and then will send that as input to the executionvm 
-      //const userSourceCodeImage = await createUserCodeImage(sub);
+      const userSourceCodeImage = await createUserCodeImage(sub);
 
-      // will return the apiSocketpath or Error;
-      const firecrackerStartResponse = await startFirecrackerProcess();
-      if (!firecrackerStartResponse.success) {
-         throw firecrackerStartResponse.error
-      }
-      const compilorVm = await startMicroVm(firecrackerStartResponse.apiSocket, compilerRootfsImage, userSourceCodeImagePath, userBinaryCodePath, "compilation");
+      // // will return the apiSocketpath or Error;
+      // const firecrackerStartResponse = await startFirecrackerProcess();
+      // if (!firecrackerStartResponse.success) {
+      //    throw firecrackerStartResponse.error
+      // }
+      // const compilorVm = await startMicroVm(firecrackerStartResponse.apiSocket, compilerRootfsImage, userSourceCodeImagePath, userBinaryCodePath, "compilation");
 
-      const fireCrackExecVmProcess = await startFirecrackerProcess();
-      if (!fireCrackExecVmProcess.success) {
-         throw fireCrackExecVmProcess.error
-      }
+      // const fireCrackExecVmProcess = await startFirecrackerProcess();
+      // if (!fireCrackExecVmProcess.success) {
+      //    throw fireCrackExecVmProcess.error
+      // }
 
 
-      const executorVm = await startMicroVm(fireCrackExecVmProcess.apiSocket, executionRootfsImage, inputImagePath, outputImagePath, "execution", userBinaryCodePath);
+      // const executorVm = await startMicroVm(fireCrackExecVmProcess.apiSocket, executionRootfsImage, inputImagePath, outputImagePath, "execution", userBinaryCodePath);
 
-      console.log("executed successfully");
+      // console.log("executed successfully");
 
    } catch (error) {
       console.log('error in the controller ', error);
    }
 }
+
+
