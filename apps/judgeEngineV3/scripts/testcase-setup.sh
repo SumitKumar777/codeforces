@@ -19,7 +19,6 @@ cleanup() {
   fi
 }
 
-
 trap cleanup EXIT
 
 
