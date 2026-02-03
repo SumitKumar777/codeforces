@@ -26,7 +26,7 @@ const runSpawn = (cmd: string, arg: string[]) => {
 
 		p.once("close", (code) => {
 			if (code !== 0) {
-				reject(`failed to clean socket ${code}`);
+				reject(`failed to  runSpawn ${code}`);
 			} else {
 				resolve();
 			}
@@ -77,6 +77,9 @@ export const startFirecrackerProcess = async (): Promise<StartFirecrackerResult>
 			API_SOCKET,
 			"--enable-pci",
 		], API_SOCKET);
+
+		await runSpawn("sudo", ["chmod", "666", API_SOCKET]);
+
 
 		return { success: true, apiSocket: API_SOCKET };
 	} catch (error) {
