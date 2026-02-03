@@ -2,7 +2,7 @@
 set -e
 
 SIZE_MB="${SIZE_MB:-50}"
-MOUNT="${MOUNT:-/mnt/problem-image}-$$"
+MOUNT="${MOUNT:-/tmp/problem-image}-$$"
 PROBLEM="${PROBLEM:?PROBLEM environment variable is required}"
 IMAGE="$HOME/problem-testcase-images/${PROBLEM}.ext4"
 
@@ -15,7 +15,7 @@ cleanup() {
   fi
   if [ -d "$MOUNT" ]; then
     echo "Removing temporary directory $MOUNT"
-    rmdir "$MOUNT"
+    sudo rmdir "$MOUNT"
   fi
 }
 
