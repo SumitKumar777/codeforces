@@ -10,7 +10,7 @@ const packageUserCode = async (submissionId: string) => {
 				projectRoot,
 				"scripts/usercode-setup.sh",
 			);
-			const runScript = spawn("sudo", ["--preserve-env=SUB_ID", "bash", userCodeScriptPath], {
+			const runScript = spawn("bash", [userCodeScriptPath], {
 				stdio: "inherit",
 				env: {
 					...process.env,

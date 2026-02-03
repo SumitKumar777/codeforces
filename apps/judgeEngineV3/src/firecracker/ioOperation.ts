@@ -72,8 +72,8 @@ const runScript = async (problemId: string) => {
 		// ! add runtime variable in this script right now node added just wanted to test if this is working
 
 		const runScript = spawn(
-			"sudo",
-			["--preserve-env=PROBLEM", "bash", scriptPath],
+			"bash",
+			[scriptPath],
 			{
 				stdio: "inherit",
 				env: {
@@ -183,9 +183,9 @@ export const createTestCaseImage = async (submission: Submission) => {
 			throw new Error("testcaseFile  not created");
 		}
 
-		// const result = await runScript(submission.problem_id);
+		const result = await runScript(submission.problem_id);
 
-		// return result;
+		return result;
 	} catch (error) {
 		console.log("error in the createTestCaseImage", error);
 	}
