@@ -15,7 +15,7 @@ const confReqOption = (
       method,
       headers: {
          "Content-Type": "application/json",
-         "Content-Lenght": Buffer.byteLength(requestBody),
+         "Content-Length": Buffer.byteLength(requestBody),
       },
    };
 };
@@ -70,9 +70,9 @@ const configureVM = async (
    memory: number = 512,
 ) => {
    const requestBody = JSON.stringify({
-      v_cpu_count: vcpu,
-      mem_siz_mib: memory,
-      smt: false,
+      vcpu_count: 2,
+      mem_size_mib: 512,
+      smt: false
    });
 
    return new Promise<void>((resolve, reject) => {
@@ -114,7 +114,7 @@ const configureVM = async (
 
 const confBootSource = (socketPath: string) => {
    const requestBody = JSON.stringify({
-      kernal_image_path: path.resolve(rootDirectory!, "vmlinux-6.1.155"),
+      kernel_image_path: path.resolve(rootDirectory!, "vmlinux-6.1.155"),
       boot_args: "console=tty0 reboot=acpi, panic=1 init=/init",
    });
 
@@ -128,7 +128,7 @@ const confBootSource = (socketPath: string) => {
       const req = http.request(option, (res) => {
          let data = "";
 
-         req.on("data", (d) => {
+         res.on("data", (d) => {
             data += d;
          });
 
@@ -180,6 +180,57 @@ const confRequest = async (
    );
 };
 
+
+
+const confStartVm = (socketPath: string) => {
+
+   const requestBody = JSON.stringify({
+      action_type: "InstanceStart"
+   })
+
+
+
+   return new Promise<void>((resolve, reject) => {
+      const option = confReqOption("/actions", socketPath, requestBody)
+
+      if (Object.keys(option).length === 0) {
+         reject(new Error("failed to configure Instance option"));
+      }
+
+      const req = http.request(option, (res) => {
+         let data = "";
+
+         res.on("data", (d) => {
+            data += d;
+         });
+
+         res.on("end", () => {
+            const status = res.statusCode ?? 0;
+
+            if (status >= 200 && status < 300) {
+               resolve();
+            } else {
+               reject(
+                  new Error(
+                     `failed to conf  instance data is  ${data} status ${status}`,
+                  ),
+               );
+            }
+         });
+      });
+
+      req.on("error", (err) => {
+         reject(new Error(`Error in instance ${err}`));
+      });
+
+      req.write(requestBody);
+      req.end();
+   });
+
+
+
+}
+
 export type MicroVmType = "compilation" | "execution";
 
 export const startMicroVm = async (
@@ -222,6 +273,8 @@ export const startMicroVm = async (
             "Program",
          );
       }
+
+      const startVm = await confStartVm(apiSocket)
 
    } catch (error) {
       console.log("Error while starting vm ", error);

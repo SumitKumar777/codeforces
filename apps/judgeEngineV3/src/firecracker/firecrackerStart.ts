@@ -63,8 +63,9 @@ const runFirecracker = (cmd: string, args: string[], API_SOCKET: string, timeOut
 };
 
 export const startFirecrackerProcess = async (): Promise<StartFirecrackerResult> => {
-	const API_SOCKET_PATH = path.resolve(process.env.Home!, "firecrackerSockets")
+	const API_SOCKET_PATH = path.resolve(process.env.HOME!, "firecrackerSockets")
 	const API_SOCKET = path.join(API_SOCKET_PATH, `${crypto.randomUUID()}.socket`);
+
 	try {
 		const cleanSocket = await runSpawn("sudo", ["rm", "-f", API_SOCKET]);
 
