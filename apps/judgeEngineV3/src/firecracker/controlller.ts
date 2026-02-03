@@ -29,6 +29,7 @@ const userBinaryCodePath = "binarycode.ext4";
 
 
 
+
 // export const startMicroVm = async (
 //    apiSocket: string,
 //    rootfsImage: string,
@@ -52,9 +53,9 @@ export const controller = async (sub: Submission) => {
       if (!firecrackerStartResponse.success) {
          throw firecrackerStartResponse.error
       }
-      // const compilorVm = await startMicroVm(firecrackerStartResponse.apiSocket, compilerRootfsImage, userBinaryCodePath, userBinaryCodePath, "compilation");
+      const compilorVm = await startMicroVm(firecrackerStartResponse.apiSocket, compilerRootfsImage, userSourceCodeImagePath, userBinaryCodePath, "compilation");
 
-      // const executorVm = await startMicroVm(firecrackerStartResponse.apiSocket, executionRootfsImage, testCaseImage, outputImagePath, "execution", userBinaryCodePath);
+      const executorVm = await startMicroVm(firecrackerStartResponse.apiSocket, executionRootfsImage, inputImagePath, userBinaryCodePath, "execution", outputImagePath);
 
    } catch (error) {
       console.log('error in the controller ', error);

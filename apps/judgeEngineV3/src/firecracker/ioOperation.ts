@@ -172,7 +172,7 @@ export const createTestCaseImage = async (submission: Submission) => {
 		}
 
 		const result = await runScript(submission.problem_id);
-		console.log("result of the script", result);
+
 		return result;
 	} catch (error) {
 		console.log("error in the createTestCaseImage", error);
