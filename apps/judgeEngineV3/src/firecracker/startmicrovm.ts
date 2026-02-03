@@ -162,8 +162,8 @@ const confRequest = async (
    socketPath: string,
    drive_id: string,
    title: string,
-   root_Device: boolean = false,
    read_only: boolean = true,
+   root_Device: boolean = false,
 ) => {
    const requestBody = JSON.stringify({
       drive_id,
@@ -247,6 +247,8 @@ export const startMicroVm = async (
       await configureVM(apiSocket);
       await confBootSource(apiSocket);
 
+      const inputReadOnly = type === "compilation" ? false : true
+
       await confRequest(
          rootfsImage,
          apiSocket,
@@ -259,6 +261,9 @@ export const startMicroVm = async (
          apiSocket,
          "input",
          "Input",
+         inputReadOnly
+
+
       );
       await confRequest(
          outputImagePath,
@@ -273,6 +278,7 @@ export const startMicroVm = async (
             apiSocket,
             "program",
             "Program",
+
          );
       }
 

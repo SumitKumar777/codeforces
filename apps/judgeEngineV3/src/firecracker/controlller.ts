@@ -40,7 +40,7 @@ const userBinaryCodePath = "binarycode.ext4";
 // ) => {
 
 
-export const controller = async (sub: Submission) => {
+export const controller = async () => {
 
    try {
       // need to be implemented like check if we are getting the testcaseImage for that problem
@@ -60,7 +60,7 @@ export const controller = async (sub: Submission) => {
          throw fireCrackExecVmProcess.error
       }
 
-      const executorVm = await startMicroVm(fireCrackExecVmProcess.apiSocket, executionRootfsImage, inputImagePath, userBinaryCodePath, "execution", outputImagePath);
+      const executorVm = await startMicroVm(fireCrackExecVmProcess.apiSocket, executionRootfsImage, inputImagePath, outputImagePath, "execution", userBinaryCodePath);
 
    } catch (error) {
       console.log('error in the controller ', error);
