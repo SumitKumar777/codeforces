@@ -64,14 +64,14 @@ const firecrackerHttpRequest = (
    });
 };
 
-const configureVM = async (
+const configureVM = (
    socketPath: string,
    vcpu: number = 1,
    memory: number = 512,
 ) => {
    const requestBody = JSON.stringify({
-      vcpu_count: 2,
-      mem_size_mib: 512,
+      vcpu_count: vcpu,
+      mem_size_mib: memory,
       smt: false
    });
 
@@ -115,7 +115,8 @@ const configureVM = async (
 const confBootSource = (socketPath: string) => {
    const requestBody = JSON.stringify({
       kernel_image_path: path.resolve(rootDirectory!, "vmlinux-6.1.155"),
-      boot_args: "console=tty0 reboot=acpi, panic=1 init=/init",
+      boot_args: "console=ttyS0 reboot=acpi panic=1 init=/init",
+
    });
 
    return new Promise<void>((resolve, reject) => {
@@ -242,23 +243,24 @@ export const startMicroVm = async (
    programImagePath: string = "",
 ) => {
    try {
+      console.log("api socket path in startMicrovm", apiSocket);
       await configureVM(apiSocket);
       await confBootSource(apiSocket);
 
-      const rootfsReq = await confRequest(
+      await confRequest(
          rootfsImage,
          apiSocket,
          "rootfs",
          "Rootfs",
          true,
       );
-      const inputReq = await confRequest(
+      await confRequest(
          inputImagePath,
          apiSocket,
          "input",
          "Input",
       );
-      const outputReq = await confRequest(
+      await confRequest(
          outputImagePath,
          apiSocket,
          "output",
@@ -266,7 +268,7 @@ export const startMicroVm = async (
       );
 
       if (type === "execution") {
-         const binaryProgramReq = await confRequest(
+         await confRequest(
             programImagePath,
             apiSocket,
             "program",
@@ -274,7 +276,7 @@ export const startMicroVm = async (
          );
       }
 
-      const startVm = await confStartVm(apiSocket)
+      await confStartVm(apiSocket)
 
    } catch (error) {
       console.log("Error while starting vm ", error);
