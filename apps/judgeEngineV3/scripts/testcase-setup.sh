@@ -36,7 +36,7 @@ fi
 
 mkdir -p "$MOUNT"
 mkdir -p "$(dirname "$IMAGE")"
-
+mkdir -p "$(dirname "$OUTIMAGE")"
 
 dd if=/dev/zero of="$IMAGE" bs=1M count="$SIZE_MB"
 sudo mkfs.ext4 -F "$IMAGE"

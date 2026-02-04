@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 const HOME = process.env.HOME!;
 
-console.log("home is ", HOME);
+
 
 
 
@@ -140,7 +140,7 @@ const createTestCaseFiles = async (
 		if (!(await checkExists(problemPath, "dir"))) {
 			await profs.mkdir(problemPath);
 		} else {
-			console.log("already exists problem");
+			// console.log("already exists problem");
 			return true;
 		}
 

@@ -50,7 +50,7 @@ export const createUserCodeImage = async (sub: Submission) => {
 
 
 		if (await checkExists(userSourceCodePath, "file")) {
-			console.log('code image exists');
+			// console.log('code image exists');
 			return
 		}
 
