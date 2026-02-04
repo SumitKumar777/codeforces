@@ -185,9 +185,9 @@ export const createTestCaseImage = async (submission: Submission) => {
 			throw new Error("testcaseFile  not created");
 		}
 
-		const result = await runScript(submission.problem_id, submission.submission_id);
+		// const result = await runScript(submission.problem_id, submission.submission_id);
 
-		return result;
+		// return result;
 	} catch (error) {
 		console.log("error in the createTestCaseImage", error);
 	}

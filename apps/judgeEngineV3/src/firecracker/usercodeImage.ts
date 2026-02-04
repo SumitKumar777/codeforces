@@ -46,10 +46,13 @@ export const createUserCodeImage = async (sub: Submission) => {
 			throw new Error("submission is empty");
 		}
 
-		const userSourceCodePath = path.join(process.env.HOME!, "userSourceCodeImages", `${sub.submission_id}.ext4`)
+
+		const userSourceCodePath = path.join(projectRoot, "userSourceCode", `${sub.submission_id}`);
 
 
-		if (await checkExists(userSourceCodePath, "file")) {
+		const userSourceCodeImagePath = path.resolve(process.env.HOME!, "userSourceCodeImages", `${sub.submission_id}.ext4`)
+
+		if (await checkExists(userSourceCodeImagePath, "file")) {
 			// console.log('code image exists');
 			return
 		}
@@ -73,7 +76,7 @@ export const createUserCodeImage = async (sub: Submission) => {
 
 		await profs.writeFile(filePath, sub.code);
 
-		await packageUserCode(sub.submission_id);
+		// await packageUserCode(sub.submission_id);
 
 	} catch (error) {
 		console.log("error in createUserImage", error);
