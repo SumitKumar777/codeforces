@@ -128,9 +128,11 @@ const createTestCaseFiles = async (
 ) => {
 
 	try {
-		const testCasesPath = path.join(HOME, "problem-testcase-images");
+		const testCasesPath = path.join(projectRoot, "testcases");
 		await profs.mkdir(testCasesPath, { recursive: true });
 		const problemPath = path.join(testCasesPath, `problem-${problem_id}`);
+
+
 
 		if (await checkProblemImageExist(problem_id)) {
 			console.log("imageExists");
@@ -140,7 +142,7 @@ const createTestCaseFiles = async (
 		if (!(await checkExists(problemPath, "dir"))) {
 			await profs.mkdir(problemPath);
 		} else {
-			// console.log("already exists problem");
+			// console.log("already  problem testcase exists");
 			return true;
 		}
 
