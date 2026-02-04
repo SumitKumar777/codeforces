@@ -1,7 +1,7 @@
 import path from "path";
-import { projectRoot, type Submission } from "./ioOperation.js";
+import { checkExists, projectRoot, type Submission } from "./ioOperation.js";
 import { spawn } from "child_process";
-import { promises as fs } from "fs";
+import { promises as profs, stat, Stats } from "fs";
 
 const packageUserCode = async (submissionId: string) => {
 	return new Promise<void>((resolve, reject) => {
@@ -37,15 +37,25 @@ const packageUserCode = async (submissionId: string) => {
 	});
 };
 
+
+
+
 export const createUserCodeImage = async (sub: Submission) => {
 	try {
 		if (!Object.keys(sub).length) {
 			throw new Error("submission is empty");
 		}
 
-		const userSourceCodePath = path.join(projectRoot, "userSourceCode", `${sub.submission_id}`)
+		const userSourceCodePath = path.join(process.env.HOME!, "userSourceCodeImages", `${sub.submission_id}.ext4`)
 
-		await fs.mkdir(userSourceCodePath, {
+
+		if (await checkExists(userSourceCodePath, "file")) {
+			console.log('code image exists');
+			return
+		}
+
+
+		await profs.mkdir(userSourceCodePath, {
 			recursive: true,
 		});
 
@@ -61,7 +71,7 @@ export const createUserCodeImage = async (sub: Submission) => {
 
 		const filePath = path.join(userSourceCodePath, `main.${fileExtension}`);
 
-		await fs.writeFile(filePath, sub.code);
+		await profs.writeFile(filePath, sub.code);
 
 		await packageUserCode(sub.submission_id);
 

@@ -10,7 +10,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const HOME = process.env.HOME;
+const HOME = process.env.HOME!;
 
 console.log("home is ", HOME);
 
@@ -42,7 +42,7 @@ export interface Submission {
 
 type PathType = "file" | "dir";
 
-const checkExists = async (path: string, type: PathType) => {
+export const checkExists = async (path: string, type: PathType) => {
 	try {
 		const fileStat = await profs.stat(path);
 
@@ -106,7 +106,7 @@ const checkProblemImageExist = async (problemId: string) => {
 			return;
 		}
 
-		const problemImagePath = path.join(projectRoot, "problemImages");
+		const problemImagePath = path.join(HOME, "problem-testcase-images",);
 
 		await profs.mkdir(problemImagePath, { recursive: true });
 
@@ -128,7 +128,7 @@ const createTestCaseFiles = async (
 ) => {
 
 	try {
-		const testCasesPath = path.join(projectRoot, "testcases");
+		const testCasesPath = path.join(HOME, "problem-testcase-images");
 		await profs.mkdir(testCasesPath, { recursive: true });
 		const problemPath = path.join(testCasesPath, `problem-${problem_id}`);
 
@@ -147,7 +147,8 @@ const createTestCaseFiles = async (
 		let count = 1;
 		for (const tstCase of testcase) {
 
-			await profs.mkdir(`${problemPath}/${count}`, { recursive: true })
+			await profs.mkdir(`${problemPath}`, { recursive: true })
+			await profs.mkdir(path.join(problemPath, `${count}`), { recursive: true })
 			await profs.writeFile(
 				path.join(problemPath, `${count}`, "input.txt"),
 				tstCase.input,
