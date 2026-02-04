@@ -76,7 +76,7 @@ export const createUserCodeImage = async (sub: Submission) => {
 
 		await profs.writeFile(filePath, sub.code);
 
-		// await packageUserCode(sub.submission_id);
+		await packageUserCode(sub.submission_id);
 
 	} catch (error) {
 		console.log("error in createUserImage", error);
