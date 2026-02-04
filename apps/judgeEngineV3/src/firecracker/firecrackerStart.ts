@@ -71,7 +71,7 @@ export const startFirecrackerProcess = async (): Promise<StartFirecrackerResult>
 
 		console.log("cleanSocket", cleanSocket);
 
-		const startFirecracker = await runFirecracker("sudo", [
+		await runFirecracker("sudo", [
 			FIRECRACKER_BIN,
 			"--api-sock",
 			API_SOCKET,

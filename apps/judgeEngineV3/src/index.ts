@@ -5,6 +5,7 @@ import { promises as fs } from "fs";
 import { createUserCodeImage } from "./firecracker/usercodeImage.js";
 import { startFirecrackerProcess } from "./firecracker/firecrackerStart.js";
 import { controller } from "./firecracker/controlller.js";
+import { evaluator } from "./firecracker/evaluator.js";
 
 
 
@@ -14,6 +15,7 @@ async function main() {
 
       for (const sub of submissionData) {
          await controller(sub);
+         // await evaluator(sub);
       }
 
    } catch (error) {

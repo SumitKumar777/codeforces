@@ -206,6 +206,7 @@ const confStartVm = (socketPath: string) => {
          });
 
          res.on("end", () => {
+            console.log("data of startvm =>  ", data)
             const status = res.statusCode ?? 0;
 
             if (status >= 200 && status < 300) {

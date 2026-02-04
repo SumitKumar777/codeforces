@@ -4,7 +4,7 @@ import { spawn } from "child_process";
 import { promises as profs, stat, Stats } from "fs";
 
 const packageUserCode = async (submissionId: string) => {
-	return new Promise<void>((resolve, reject) => {
+	return new Promise((resolve, reject) => {
 		try {
 			const userCodeScriptPath = path.join(
 				projectRoot,
@@ -25,7 +25,7 @@ const packageUserCode = async (submissionId: string) => {
 			runScript.on("exit", (code, signal) => {
 				if (code === 0) {
 					console.log("usercodeImage script ran successfull");
-					resolve();
+					resolve("success");
 				} else {
 					reject(new Error(`error in usercodeImage runscript ${signal}`));
 				}
@@ -36,8 +36,6 @@ const packageUserCode = async (submissionId: string) => {
 		}
 	});
 };
-
-
 
 
 export const createUserCodeImage = async (sub: Submission) => {
@@ -76,9 +74,19 @@ export const createUserCodeImage = async (sub: Submission) => {
 
 		await profs.writeFile(filePath, sub.code);
 
-		await packageUserCode(sub.submission_id);
+		const pkgUserImageResponse = await packageUserCode(sub.submission_id);
+
+		if (pkgUserImageResponse === "success") {
+			return { status: "success", imageName: `${sub.submission_id}.ext4` };
+		} else {
+			console.log(pkgUserImageResponse)
+			throw new Error("image not create")
+		}
+
+
 
 	} catch (error) {
 		console.log("error in createUserImage", error);
+		return { status: "error", error }
 	}
 };
