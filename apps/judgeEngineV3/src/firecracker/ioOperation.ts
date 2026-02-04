@@ -60,7 +60,7 @@ const checkExists = async (path: string, type: PathType) => {
 const scriptPath: string = path.join(projectRoot, "scripts/testcase-setup.sh");
 
 // this runScript function will start the script and create the testcaseImage and then we will delete
-const runScript = async (problemId: string) => {
+const runScript = async (problemId: string, sub_id: string) => {
 	// check if the image exists for that problem
 
 	if (await checkProblemImageExist(problemId)) {
@@ -78,6 +78,7 @@ const runScript = async (problemId: string) => {
 				stdio: "inherit",
 				env: {
 					...process.env,
+					SUB_ID: sub_id,
 					PROBLEM: `problem-${problemId}`,
 				},
 			},
@@ -183,7 +184,7 @@ export const createTestCaseImage = async (submission: Submission) => {
 			throw new Error("testcaseFile  not created");
 		}
 
-		const result = await runScript(submission.problem_id);
+		const result = await runScript(submission.problem_id, submission.submission_id);
 
 		return result;
 	} catch (error) {
