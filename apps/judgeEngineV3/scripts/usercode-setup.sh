@@ -4,7 +4,9 @@ set -e
 SUB_ID="${SUB_ID:?SUB_ID submission id is required}"
 MOUNT="${MOUNT:-/tmp/usercode}-$$"
 USERCODE="${USERCODE:-userSourceCode}"
-IMAGE="$HOME/userSourceImage/$SUB_ID.ext4"
+IMAGE="$HOME/userSourceCodeImages/$SUB_ID.ext4"
+OUTIMAGE="$HOME/userBinaryCodeImages/$SUB_ID.ext4"
+
 
 
 cleanup() {
@@ -36,10 +38,17 @@ fi
 
 mkdir -p "$MOUNT"
 mkdir -p "$(dirname "$IMAGE")"
+mkdir -p "$(dirname "$OUTIMAGE")"
 
 
 dd if=/dev/zero of="$IMAGE" bs=1M count=50
 sudo mkfs.ext4 -F "$IMAGE"
+
+
+dd if=/dev/zero of="$OUTIMAGE" bs=1M count=50
+sudo mkfs.ext4 -F "$OUTIMAGE"
+
+
 
 
 sudo mount -o loop "$IMAGE" "$MOUNT"

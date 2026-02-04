@@ -4,7 +4,10 @@ set -e
 SIZE_MB="${SIZE_MB:-50}"
 MOUNT="${MOUNT:-/tmp/problem-image}-$$"
 PROBLEM="${PROBLEM:?PROBLEM environment variable is required}"
+SUB_ID="${SUB_ID:?SUB_ID submission variable is required}"
 IMAGE="$HOME/problem-testcase-images/${PROBLEM}.ext4"
+OUTIMAGE="$HOME/user-output-code-Images/${SUB_ID}.ext4"
+
 
 
 cleanup() {
@@ -39,6 +42,11 @@ dd if=/dev/zero of="$IMAGE" bs=1M count="$SIZE_MB"
 sudo mkfs.ext4 -F "$IMAGE"
 
 
+dd if=/dev/zero of="$OUTIMAGE" bs=1M count=50
+sudo mkfs.ext4 -F "$OUTIMAGE"
+
+
+
 sudo mount -o loop "$IMAGE" "$MOUNT"
 
 
@@ -48,7 +56,7 @@ sudo mount -o loop "$IMAGE" "$MOUNT"
 }
 
 
-sudo mkdir -p "$MOUNT/problem"
+sudo mkdir -p "$MOUNT"
 sudo cp -r testcases/${PROBLEM}/* "$MOUNT/"
 sudo chown -R root:root "$MOUNT"
 sudo find "$MOUNT" -type f -exec chmod 444 {} \; || true
