@@ -83,8 +83,6 @@ export const createUserCodeImage = async (sub: Submission) => {
 			throw new Error("image not create")
 		}
 
-
-
 	} catch (error) {
 		console.log("error in createUserImage", error);
 		return { status: "error", error }

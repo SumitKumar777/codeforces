@@ -52,19 +52,28 @@ export const controller = async (sub: Submission) => {
       }
 
       // will return the apiSocketpath or Error;
-      const firecrackerStartResponse = await startFirecrackerProcess();
-      if (!firecrackerStartResponse.success) {
-         throw firecrackerStartResponse.error
-      }
-      await startMicroVm(firecrackerStartResponse.apiSocket, compilerRootfsImage, `${userSourceCodeImagePathDir}/${sub.submission_id}.ext4`, `${userBinaryCodePathDir}/${sub.submission_id}.ext4`, "compilation");
-      console.log('compiler vm started')
+      // const firecrackerStartResponse = await startFirecrackerProcess();
+      // if (!firecrackerStartResponse.success) {
+      //    throw firecrackerStartResponse.error
+      // }
+      // await startMicroVm(firecrackerStartResponse.apiSocket, compilerRootfsImage, `${userSourceCodeImagePathDir}/${sub.submission_id}.ext4`, `${userBinaryCodePathDir}/${sub.submission_id}.ext4`, "compilation");
+      // console.log('compiler vm started')
+
+
 
       const fireCrackExecVmProcess = await startFirecrackerProcess();
       if (!fireCrackExecVmProcess.success) {
          throw fireCrackExecVmProcess.error
       }
 
-      await startMicroVm(fireCrackExecVmProcess.apiSocket, executionRootfsImage, `${testCaseImagePath}/${sub.problem_id}.ext4`, `${verdictImagePath}/${sub.submission_id}.ext4`, "execution", `${userBinaryCodePathDir}/${sub.submission_id}.ext4`);
+      console.log("testCase image input => ", `${testCaseImagePath}/problem-${sub.problem_id}.ext4`);
+      console.log("output image input => ", `${verdictImagePath}/${sub.submission_id}.ext4`);
+
+      console.log("program image input => ", `${userBinaryCodePathDir}/${sub.submission_id}.ext4`);
+
+
+
+      await startMicroVm(fireCrackExecVmProcess.apiSocket, executionRootfsImage, `${testCaseImagePath}/problem-${sub.problem_id}.ext4`, `${verdictImagePath}/${sub.submission_id}.ext4`, "execution", `${userBinaryCodePathDir}/${sub.submission_id}.ext4`);
 
 
 
