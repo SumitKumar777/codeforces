@@ -6,7 +6,6 @@ import fs from "fs";
 
 const FIRECRACKER_BIN = path.resolve(process.env.HOME!, "firecracker");
 
-
 type StartFirecrackerResult =
 	| {
 		success: true;
@@ -16,7 +15,6 @@ type StartFirecrackerResult =
 		success: false;
 		error: unknown;
 	};
-
 
 export const runSpawn = (cmd: string, arg: string[]) => {
 	return new Promise<void>((resolve, reject) => {
@@ -34,11 +32,24 @@ export const runSpawn = (cmd: string, arg: string[]) => {
 	});
 };
 
-const runFirecracker = (cmd: string, args: string[], API_SOCKET: string, timeOut = 3000) => {
+const runFirecracker = (
+	cmd: string,
+	args: string[],
+	API_SOCKET: string,
+	timeOut = 3000,
+) => {
 	return new Promise<void>((resolve, reject) => {
 		const startTime = Date.now();
 
-		const p = spawn(cmd, args);
+		const p = spawn(cmd, args, { stdio: ["ignore", "pipe", "pipe"] });
+
+		p.stdout.on("data", (d) => {
+			console.log("firecracker Start", d.toString());
+		});
+
+		p.stderr.on("error", (e) => {
+			console.log("firecracker error", e.toString());
+		});
 
 		p.once("error", reject);
 
@@ -62,28 +73,49 @@ const runFirecracker = (cmd: string, args: string[], API_SOCKET: string, timeOut
 	});
 };
 
-export const startFirecrackerProcess = async (): Promise<StartFirecrackerResult> => {
-	const API_SOCKET_PATH = path.resolve(process.env.HOME!, "firecrackerSockets")
-	const API_SOCKET = path.join(API_SOCKET_PATH, `${crypto.randomUUID()}.socket`);
+export const startFirecrackerProcess =
+	async (): Promise<StartFirecrackerResult> => {
+		const API_SOCKET_PATH = path.resolve(
+			process.env.HOME!,
+			"firecrackerSockets",
+		);
+		const API_SOCKET = path.join(
+			API_SOCKET_PATH,
+			`${crypto.randomUUID()}.socket`,
+		);
+		const FIRECRACKER_LOG = path.join(
+			process.env.HOME!,
+			"firecrackerlogs",
+			`${crypto.randomUUID()}.log`,
+		);
 
-	try {
-		const cleanSocket = await runSpawn("sudo", ["rm", "-f", API_SOCKET]);
+		try {
+			const cleanSocket = await runSpawn("sudo", ["rm", "-f", API_SOCKET]);
 
-		console.log("cleanSocket", cleanSocket);
+			console.log("cleanSocket", cleanSocket);
 
-		await runFirecracker("sudo", [
-			FIRECRACKER_BIN,
-			"--api-sock",
-			API_SOCKET,
-			"--enable-pci",
-		], API_SOCKET);
+			await runFirecracker(
+				"sudo",
+				[
+					FIRECRACKER_BIN,
+					"--api-sock",
+					API_SOCKET,
+					"--log-path",
+					FIRECRACKER_LOG,
+					"--level",
+					"Debug",
+					"--show-level",
+					"--show-log-origin",
+					"--enable-pci",
+				],
+				API_SOCKET,
+			);
 
-		await runSpawn("sudo", ["chmod", "666", API_SOCKET]);
+			await runSpawn("sudo", ["chmod", "666", API_SOCKET]);
 
-
-		return { success: true, apiSocket: API_SOCKET };
-	} catch (error) {
-		console.log("error while starting firecracker", error);
-		return { success: false, error }
-	}
-};
+			return { success: true, apiSocket: API_SOCKET };
+		} catch (error) {
+			console.log("error while starting firecracker", error);
+			return { success: false, error };
+		}
+	};

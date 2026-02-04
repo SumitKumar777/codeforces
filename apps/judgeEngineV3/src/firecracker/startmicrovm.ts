@@ -289,7 +289,6 @@ export const startMicroVm = async (
             "Program",
             false,
             true,
-
          );
       }
       await confStartVm(apiSocket)
