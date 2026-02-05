@@ -45,7 +45,7 @@ export const controller = async (sub: Submission) => {
       await startMicroVm(
          fireCrackExecVmProcess.apiSocket,
          executionRootfsImage,
-         `${testCaseImagePath}/problem-${sub.problem_id}.ext4`,
+         `${testCaseImagePath}/problem-${sub.problem_id}.squashfs`,
          `${verdictImagePath}/${sub.submission_id}.ext4`,
          "execution",
          `${userBinaryCodePathDir}/${sub.submission_id}.ext4`,

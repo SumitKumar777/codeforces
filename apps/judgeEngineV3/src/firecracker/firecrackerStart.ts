@@ -43,13 +43,6 @@ const runFirecracker = (
 
 		const p = spawn(cmd, args, { stdio: ["ignore", "pipe", "pipe"] });
 
-		p.stdout.on("data", (d) => {
-			console.log("firecracker Start", d.toString());
-		});
-
-		p.stderr.on("error", (e) => {
-			console.log("firecracker error", e.toString());
-		});
 
 		p.once("error", reject);
 
