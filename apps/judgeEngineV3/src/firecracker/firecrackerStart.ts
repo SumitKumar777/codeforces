@@ -41,7 +41,7 @@ const runFirecracker = (
 	return new Promise<void>((resolve, reject) => {
 		const startTime = Date.now();
 
-		const p = spawn(cmd, args, { stdio: ["ignore", "pipe", "pipe"] });
+		const p = spawn(cmd, args, { stdio: ["ignore", "inherit", "inherit"] });
 
 
 		p.once("error", reject);
