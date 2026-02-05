@@ -1,6 +1,7 @@
 import path from "path";
 import { spawn } from "child_process";
 import crypto from "crypto";
+import { ChildProcess } from "child_process";
 
 import fs from "fs";
 
@@ -10,6 +11,7 @@ type StartFirecrackerResult =
 	| {
 		success: true;
 		apiSocket: string;
+		firecrackerProcess: ChildProcess
 	}
 	| {
 		success: false;
@@ -38,7 +40,7 @@ const runFirecracker = (
 	API_SOCKET: string,
 	timeOut = 3000,
 ) => {
-	return new Promise<void>((resolve, reject) => {
+	return new Promise<{ process: ReturnType<typeof spawn> }>((resolve, reject) => {
 		const startTime = Date.now();
 
 		const p = spawn(cmd, args, { stdio: ["ignore", "inherit", "inherit"] });
@@ -57,9 +59,10 @@ const runFirecracker = (
 		const timer = setInterval(() => {
 			if (fs.existsSync(API_SOCKET)) {
 				clearInterval(timer);
-				resolve();
+				resolve({ process: p });
 			} else if (Date.now() - startTime > timeOut) {
 				clearInterval(timer);
+				p.kill("SIGKILL");
 				reject("failed to start firecracker");
 			}
 		}, 20);
@@ -87,7 +90,7 @@ export const startFirecrackerProcess =
 
 			console.log("cleanSocket", cleanSocket);
 
-			await runFirecracker(
+			const { process: fcProcess } = await runFirecracker(
 				"sudo",
 				[
 					FIRECRACKER_BIN,
@@ -106,7 +109,11 @@ export const startFirecrackerProcess =
 
 			await runSpawn("sudo", ["chmod", "666", API_SOCKET]);
 
-			return { success: true, apiSocket: API_SOCKET };
+			return {
+				success: true,
+				apiSocket: API_SOCKET,
+				firecrackerProcess: fcProcess,
+			};
 		} catch (error) {
 			console.log("error while starting firecracker", error);
 			return { success: false, error };

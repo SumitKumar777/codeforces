@@ -5,12 +5,14 @@ import { startMicroVm } from "./startmicrovm.js";
 import { createUserCodeImage } from "./usercodeImage.js";
 import { spawn } from "child_process";
 
-const compilerRootfsImage = "compiler-cpp.squashfs";
-const executionRootfsImage = "rootfs-cpp.squashfs";
+const compilerRootfsImage = "compiler-rootfs.squashfs";
+const executionRootfsImage = "execution-cpp.squashfs"
 const testCaseImagePath = "problem-testcase-images";
 const verdictImagePath = "user-output-code-Images";
 const userSourceCodeImagePathDir = "userSourceCodeImages";
 const userBinaryCodePathDir = "userBinaryCodeImages";
+
+
 
 
 
@@ -49,12 +51,6 @@ const convertToSquashfs = async (submissionId: string) => {
 
 
 
-
-
-
-
-
-
 export const controller = async (sub: Submission) => {
    try {
       // need to be implemented like check if we are getting the testcaseImage for that problem
@@ -82,6 +78,7 @@ export const controller = async (sub: Submission) => {
          `${userSourceCodeImagePathDir}/${sub.submission_id}.ext4`,
          `${userBinaryCodePathDir}/${sub.submission_id}.ext4`,
          "compilation",
+         firecrackerStartResponse.firecrackerProcess,
       );
       console.log("compiler vm started");
 
@@ -99,6 +96,7 @@ export const controller = async (sub: Submission) => {
          `${testCaseImagePath}/problem-${sub.problem_id}.squashfs`,
          `${verdictImagePath}/${sub.submission_id}.ext4`,
          "execution",
+         firecrackerStartResponse.firecrackerProcess,
          `${userBinaryCodePathDir}/${sub.submission_id}.squashfs`,
       );
 

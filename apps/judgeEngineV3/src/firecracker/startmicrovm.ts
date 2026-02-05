@@ -1,7 +1,25 @@
+import type { ChildProcess, spawn } from "child_process";
 import http from "http";
 import path from "path";
 
 const rootDirectory = process.env.HOME;
+
+
+const waitForFirecrackerExit = (p: ReturnType<typeof spawn>) => {
+
+   return new Promise<void>((resolve, reject) => {
+
+      p.once("close", (code) => {
+         if (code === 0) {
+            resolve()
+         } else {
+            reject(new Error(`Firecracker exited with code ${code}`));
+         }
+      })
+   }
+   )
+}
+
 
 const confReqOption = (
    path: string,
@@ -241,6 +259,7 @@ export const startMicroVm = async (
    inputImagePath: string,
    outputImagePath: string,
    type: MicroVmType = "compilation",
+   firecrackerProcess: ChildProcess,
    programImagePath: string = "",
 ) => {
    try {
@@ -292,6 +311,8 @@ export const startMicroVm = async (
          );
       }
       await confStartVm(apiSocket)
+
+      await waitForFirecrackerExit(firecrackerProcess);
 
    } catch (error) {
       console.log("Error while starting vm ", error);
