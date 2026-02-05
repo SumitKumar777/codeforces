@@ -15,7 +15,7 @@ async function main() {
 
       for (const sub of submissionData) {
          await controller(sub);
-         // await evaluator(sub);
+         await evaluator(sub);
       }
 
    } catch (error) {

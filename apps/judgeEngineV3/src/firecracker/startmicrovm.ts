@@ -312,13 +312,13 @@ export const startMicroVm = async (
       }
       await confStartVm(apiSocket)
 
-      const timer = setTimeout(() => {
-         console.log("max time reached kill vm")
-         firecrackerProcess.kill("SIGKILL")
-      }, 5000);
+      // const timer = setTimeout(() => {
+      //    console.log("max time reached kill vm")
+      //    firecrackerProcess.kill("SIGKILL")
+      // }, 5000);
 
       await waitForFirecrackerExit(firecrackerProcess);
-      clearTimeout(timer)
+      // clearTimeout(timer)
 
    } catch (error) {
       console.log("Error while starting vm ", error);
