@@ -57,7 +57,7 @@ export const controller = async (sub: Submission) => {
 
 
 
-      const testCaseImage = await createTestCaseImage(sub);
+      await createTestCaseImage(sub);
 
       const userSourceCodeImage = await createUserCodeImage(sub);
 
@@ -96,7 +96,7 @@ export const controller = async (sub: Submission) => {
          `${testCaseImagePath}/problem-${sub.problem_id}.squashfs`,
          `${verdictImagePath}/${sub.submission_id}.ext4`,
          "execution",
-         firecrackerStartResponse.firecrackerProcess,
+         fireCrackExecVmProcess.firecrackerProcess,
          `${userBinaryCodePathDir}/${sub.submission_id}.squashfs`,
       );
 
