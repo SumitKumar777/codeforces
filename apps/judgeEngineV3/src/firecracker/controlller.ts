@@ -14,8 +14,6 @@ const userBinaryCodePathDir = "userBinaryCodeImages";
 
 
 
-
-
 const convertToSquashfs = async (submissionId: string) => {
    return new Promise((resolve, reject) => {
       try {

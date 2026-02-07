@@ -5,16 +5,16 @@
 	"private": true,
 	"devDependencies": {
 		"@repo/typescript-config": "*",
-    "@repo/db" : "*",
+		"@repo/db": "*",
+		"@repo/redis-client": "*",
 		"@repo/types": "*",
 		"@types/bun": "latest",
 		"concurrently": "^9.2.1",
-		"nodemon": "^3.1.11",
-    "@repo/redis-client": "*"
+		"nodemon": "^3.1.11"
 	},
 	"scripts": {
 		"build": "tsc -b ",
-    "start":"bun run ./dist/scripts/redis-init.js &&  node ./dist/src/index.js",
+		"start": "bun run ./dist/scripts/redis-init.js &&  node ./dist/src/index.js",
 		"dev": "concurrently \"tsc -b --watch\" \"nodemon ./dist\""
 	},
 	"peerDependencies": {
