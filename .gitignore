@@ -28,7 +28,6 @@ build
 dist
 
 #Build images
-*.squashfs
 *.ext4
 *.img
 *.qcow2
