@@ -32,6 +32,7 @@ model User {
   @@map("user")
 }
 
+
 model Admin {
   id              String     @id @default(uuid())
   email           String     @unique
@@ -48,20 +49,22 @@ model Problems {
   adminId         String
   title           String
   description     String
+  problem_slug    String
   inputStatement  String
   outputStatement String
+  constraints     String
   visibleTestCase VisibleTestCase[]
   hiddenTestCase  HiddenTestCase[]
   admin           Admin             @relation(fields: [adminId], references: [id])
-
 }
+
 
 model VisibleTestCase {
   id        String   @id @default(uuid())
   problemId Int
   input     String
-  output    String
-  order     Int
+  expected_output    String
+  order     Int @default(autoincrement())
   problem   Problems @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@index([problemId])
@@ -71,8 +74,8 @@ model HiddenTestCase {
   id        String   @id @default(uuid())
   problemId Int
   input     String
-  output    String
-  order     Int
+  expected_output    String
+  order     Int    @default(autoincrement())
   problem   Problems @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@index([problemId])
@@ -107,19 +110,19 @@ enum LanguageType {
 }
 
 enum SubmissionVerdict {
-  AC // Accepted
-  WA // Wrong Answer
-  CE // Compilation Error
-  RE // Runtime Error
-  TLE // Time Limit Exceeded
-  MLE // Memory Limit Exceeded
-  OLE // Output Limit Exceeded
-  PE // Presentation Error
-  ILE // Idleness Limit Exceeded
-  SV // Security Violation / Restricted Function
-  JE // Judge Error
-  SKIPPED // Not evaluated / skipped
-  PENDING //FOR DEFAULT VALUE
+  AC 
+  WA 
+  CE 
+  RE 
+  TLE 
+  MLE 
+  OLE
+  PE 
+  ILE 
+  SV 
+  JE 
+  SKIPPED 
+  PENDING 
 }
 
 model Session {

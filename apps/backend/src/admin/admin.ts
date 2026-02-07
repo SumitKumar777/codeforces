@@ -28,41 +28,39 @@ const siginScehma = z.object({
 adminRouter.post("/signin", async (req, res) => {
 	try {
 		const body = siginScehma.safeParse(req.body);
-		if(!body.success){
+		if (!body.success) {
 			console.log("body is ", body.data);
 			throw new Error("invalid signin request body ")
 		}
-		
-		const {data} = body
+
+		const { data } = body
 
 		const findAdmin = await prisma.admin.findUnique({
-			where:{
-				email:data.email
+			where: {
+				email: data.email
 			}
 		})
 
-		if(!findAdmin){
+		if (!findAdmin) {
 			// create new admin
 			const createAdmin = await prisma.admin.create({
-				data:{
-					name:data.name,
-					email:data.email,
-	
+				data: {
+					name: data.name,
+					email: data.email,
+
 				}
 			})
 
-			return res.json({success:true,message:"admin created successfully",admin:createAdmin})
+			return res.json({ success: true, message: "admin created successfully", admin: createAdmin })
 		}
-
-	
-		return res.json({success:true,message:"admin signed in successfully",admin:findAdmin})
+		return res.json({ success: true, message: "admin signed in successfully", admin: findAdmin })
 
 
 
 	} catch (error) {
 		console.log("error in admin signin ", error);
 		res.json({ success: false, message: "admin signin failed", error: error });
-		
+
 	}
 
 
@@ -85,16 +83,21 @@ adminRouter.post("/create-question", async (req, res) => {
 
 		console.log("data is ", body);
 
+		const problemSlug = data.problem_Title.trim().toLowerCase().replace(/\s+/g, "-");
+
 		const createQues = await prisma.$transaction(async (tx) => {
 			// add question
 			const problemId = await tx.problems.create({
 				data: {
 					title: data.problem_Title,
 					description: data.problem_description,
+					problem_slug: problemSlug,
+					constraints: data.constraints,
 					inputStatement: data.input_statement,
 					outputStatement: data.output_statement,
 					//!get the correct admin id by setting it in the requst body object in middleware
 					adminId: "34562f3b-8335-445c-b983-40c03050e3aa",
+
 				},
 				select: {
 					id: true,
@@ -107,7 +110,7 @@ adminRouter.post("/create-question", async (req, res) => {
 				data: data.visibleTestCases.map((tc, index) => ({
 					problemId: problemId.id,
 					input: tc.input,
-					output: tc.output,
+					expected_output: tc.output,
 					order: index,
 				})),
 			});
@@ -117,7 +120,7 @@ adminRouter.post("/create-question", async (req, res) => {
 				data: data.hiddenTestCases.map((tc, index) => ({
 					problemId: problemId.id,
 					input: tc.input,
-					output: tc.output,
+					expected_output: tc.output,
 					order: index,
 				})),
 			});
@@ -136,10 +139,10 @@ adminRouter.post("/create-question", async (req, res) => {
 
 // modify means add test cases of description
 
-adminRouter.put("/question-modify/:questionId", (req, res) => {});
+adminRouter.put("/question-modify/:questionId", (req, res) => { });
 
 // delete the question
 
-adminRouter.delete("/question-delete/:questionId", (req, res) => {});
+adminRouter.delete("/question-delete/:questionId", (req, res) => { });
 
 // admin details

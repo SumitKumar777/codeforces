@@ -1,10 +1,10 @@
-import type  {Express, Response} from "express";
+import type { Express, Response } from "express";
 import express from "express";
 import { codeExecRouter } from "./codeExec/code.js";
 import { sharedApiRouter } from "./shared/shared.js";
 import { adminRouter } from "./admin/admin.js";
 import cors from "cors"
-import  "./codeExec/consumer/consumer.js";
+import "./codeExec/consumer/consumer.js";
 
 
 import { auth } from "./lib/auth.js";
@@ -16,22 +16,22 @@ const PORT = process.env.PORT || 3001;
 
 
 
-export const userConnection:Map<string,Response>= new Map();
+export const userConnection: Map<string, Response> = new Map();
 
 app.use(express.json());
 
-app.use(cors({ origin:"http://localhost:3000",credentials:true }))
+app.use(cors({ origin: "http://localhost:3000", credentials: true }))
 
 
 app.use("/api/auth", toNodeHandler(auth.handler))
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
   res.send("hi from the server");
 })
 
-app.use("/code",codeExecRouter);
-app.use("/shared",sharedApiRouter);
-app.use("/admin",adminRouter);
+app.use("/code", codeExecRouter);
+app.use("/shared", sharedApiRouter);
+app.use("/admin", adminRouter);
 
 
 // Implement the events sending to the frontend on question submission
@@ -43,7 +43,7 @@ app.get('/events', (req, res) => {
 
 
   res.write(`data: Connected to server\n\n`);
-  
+
   // When client closes connection, stop sending events
   req.on('close', () => {
     res.end();
@@ -52,7 +52,7 @@ app.get('/events', (req, res) => {
 
 
 
-app.use("",(req, res)=>{
+app.use("", (req, res) => {
   console.log("invalid router");
   return res.send("invalid route please check the route")
 })

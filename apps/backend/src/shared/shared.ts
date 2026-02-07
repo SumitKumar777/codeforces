@@ -10,9 +10,9 @@ import { ProblemDetailsSchema, ApiResponseSchema } from "@repo/types";
 
 sharedApiRouter.get("/problem/:problemId", async (req, res) => {
 	try {
-      console.log("req params",req.params);
+		console.log("req params", req.params);
 		const { problemId } = req.params;
-      console.log("requested problem id ", problemId);
+		console.log("requested problem id ", problemId);
 		if (!problemId) {
 			throw new Error("problemId is missing");
 		}
@@ -35,19 +35,19 @@ sharedApiRouter.get("/problem/:problemId", async (req, res) => {
 					select: {
 						id: true,
 						input: true,
-						output: true,
+						expected_output: true,
 					},
 				},
 			},
 		});
 
-      const parsedData = ProblemDetailsSchema.parse(problemDetails);
-      if(!parsedData){
-         throw new Error("problem details parsing failed");
-      }
+		const parsedData = ProblemDetailsSchema.parse(problemDetails);
+		if (!parsedData) {
+			throw new Error("problem details parsing failed");
+		}
 
 
-      res.json({ success: true, data: parsedData });
+		res.json({ success: true, data: parsedData });
 	} catch (error) {
 		console.log("error while getting the problem", error);
 		res.json({ success: false, error: error });

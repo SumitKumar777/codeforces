@@ -10,6 +10,7 @@
 		"jsx": "react-jsx",
 		"allowJs": true,
 
+		"rootDir": "./src",
 		"outDir": "./dist",
 
 		// Bundler mode

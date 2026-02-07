@@ -14,7 +14,8 @@
 		"db:generate": "prisma generate",
 		"db:migrate": "prisma migrate dev",
 		"db:push": "prisma db push",
-		"build": "tsc -b "
+		"build": "tsc -b ",
+		"seed": "bun run build && node ./dist/src/seed.js"
 	},
 	"dependencies": {
 		"@prisma/adapter-pg": "^7.2.0",
@@ -27,6 +28,7 @@
 		"prisma": "^7.2.0",
 		"typescript": "^5",
 		"@types/bun": "latest",
-		"@repo/typescript-config": "*"
+		"@repo/typescript-config": "*",
+		"tsx": "^4.19.2"
 	}
 }

@@ -17,17 +17,31 @@ codeExecRouter.post("/submit", async (req, res) => {
     if (!id || !problemId || !code || !language) {
       throw new Error("missing required fields");
     }
-
-    const createSubmission= await prisma?.$transaction(async (tx) => {
+    const createSubmission = await prisma?.$transaction(async (tx) => {
       const findProblem = await tx.problems.findUnique({
         where: {
           id: Number(problemId),
-        },
+        }, select: {
+          visibleTestCase: {
+            select: {
+              input: true,
+              expected_output: true
+            }
+          },
+          hiddenTestCase: {
+            select: {
+              input: true,
+              expected_output: true
+            }
+          }
+        }
       });
 
       if (!findProblem) {
         throw new Error("problem not found");
       }
+
+
 
       return tx.submissions.create({
         data: {
@@ -38,30 +52,52 @@ codeExecRouter.post("/submit", async (req, res) => {
           state: "PENDING",
         },
       });
+
     });
-    if(!createSubmission){
+    if (!createSubmission) {
       throw new Error("submission creation failed");
     }
 
+
+    console.log("submission created with id ", createSubmission);
+
+    // {
+    //   "submission_id": "test-001",
+    //     "problem_id": 1,
+    //       "language": "CPP",
+    //         "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    if (!(cin >> a >> b)) return 0;\n    cout << a + b;\n    return 0;\n}",
+    //           "limits": {
+    //     "time_seconds": 1,
+    //       "memory_mb": 128
+    //   },
+    //   "testcases": [
+    //     { "input": "2 3\n", "expected_output": "5" },
+    //     { "input": "100 200\n", "expected_output": "300" },
+    //     { "input": "-10 -20\n", "expected_output": "-30" }
+    //   ]
+    // },
+
     const writeClient = await apiClient.getApiWriteRedisClient();
 
-    const pushDataToStream= await writeClient.xAdd(
+    const pushDataToStream = await writeClient.xAdd(
       "submissionStream",
       "*",
       {
-        submissionId: createSubmission.id
+        submission: JSON.stringify({
+
+        })
       }
     );
 
 
-
     console.log("pushed data to stream with id ", pushDataToStream);
 
-    res.json({ status: true, message: "submission received", data: createSubmission }); 
-   
+    res.json({ status: true, message: "submission received", data: createSubmission });
+
 
   } catch (error) {
     console.log("error while submition", error);
     res.json({ status: false, message: "failed while executing" });
   }
 });
+

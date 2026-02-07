@@ -41,8 +41,10 @@ const testCaseSchema = z.object({
    output: z.string().min(1, "Output is required"),
 });
 
- export const formSchema = z.object({
+export const formSchema = z.object({
    problem_Title: z.string().min(3).max(80),
+   problem_slug: z.string().min(3).max(80),
+   constraints: z.string().max(10000),
    problem_description: z.string().max(10000),
    input_statement: z.string().max(10000),
    output_statement: z.string().max(10000),

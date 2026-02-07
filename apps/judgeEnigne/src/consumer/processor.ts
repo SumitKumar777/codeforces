@@ -154,10 +154,10 @@ async function runOneTest(params: {
 		if (timeout) clearTimeout(timeout);
 		try {
 			await container.remove({ force: true });
-		} catch {}
+		} catch { }
 		try {
 			await fs.rm(dir, { recursive: true, force: true });
-		} catch {}
+		} catch { }
 	}
 }
 
@@ -261,17 +261,17 @@ export async function problemProcessor(submissionId: string): Promise<void> {
 
 		await redisWriteClient.xAdd("resultStream", "*", {
 			result: JSON.stringify({
-            submissionId:submissionResult.id,
+				submissionId: submissionResult.id,
 				state: submissionResult.state,
 				verdict: submissionResult.verdict,
 			}),
 		});
 
-      console.log("submission send to redis ");
-      return;
+		console.log("submission send to redis ");
+		return;
 
 	} catch (error) {
-      console.log('Error in the processor ' ,error);
-      return 
-   }
+		console.log('Error in the processor ', error);
+		return
+	}
 }
