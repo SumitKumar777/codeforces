@@ -48,12 +48,9 @@ const convertToSquashfs = async (submissionId: string) => {
 
 
 
-
 export const controller = async (sub: Submission) => {
    try {
       // need to be implemented like check if we are getting the testcaseImage for that problem
-
-
 
       await createTestCaseImage(sub);
 

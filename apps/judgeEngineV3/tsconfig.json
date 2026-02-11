@@ -29,6 +29,6 @@
 		"noUnusedParameters": false,
 		"noPropertyAccessFromIndexSignature": false
 	},
-	"include": ["src/**/*","scripts/**/*","submission/**/*"],
+	"include": ["src/**/*", "redis/**/*", "submission/**/*"],
 	"exclude": ["node_modules", "dist"]
 }

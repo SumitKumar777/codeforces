@@ -2,6 +2,7 @@ import prisma from "./index.js";
 import fs from "fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { coreSchema } from "better-auth";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -31,6 +32,7 @@ async function main() {
    const problemSetData = JSON.parse(fs.readFileSync(problemSetPath, "utf-8"));
    const testcaseData = JSON.parse(fs.readFileSync(testcasePath, "utf-8"));
 
+
    const hiddenTestcaseMap = new Map<string, any>();
    for (const t of testcaseData) {
       hiddenTestcaseMap.set(String(t.problem_id), t);
@@ -44,6 +46,7 @@ async function main() {
          expected_output: vt.output,
          order: vt.order || index + 1
       }));
+
 
       const existingProblem = await prisma.problems.findFirst({
          where: { problem_slug: pData.problem_slug }

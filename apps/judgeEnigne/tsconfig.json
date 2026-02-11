@@ -28,6 +28,6 @@
 		"noUnusedParameters": false,
 		"noPropertyAccessFromIndexSignature": false
 	},
-	"include": ["src/**/*","scripts/**/*"],
+	"include": ["src/**/*", "redis/**/*"],
 	"exclude": ["node_modules", "dist"]
 }

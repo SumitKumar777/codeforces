@@ -36,7 +36,6 @@ export interface Submission {
 	problem_id: string;
 	language: Language;
 	code: string;
-	limits: { time_seconds: number; memory_mb: number };
 	testcases: { input: string; expected_output: string }[];
 }
 

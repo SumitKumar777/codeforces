@@ -15,9 +15,16 @@ export async function createStreamConsumerGroup(client: redis.RedisClientType) {
          },
       );
       console.log("stream and group created", consGrpCrt);
-   } catch (error) {
-      console.log("error in creation of readerGroup", error);
-      throw error
+   } catch (error: any) {
+
+
+      if (error?.message?.includes("BUSYGROUP")) {
+         console.log("Consumer group already exists. Skipping creation.");
+         return;
+      }
+
+      console.error("Failed to create consumer group:", error);
+      throw error;
    }
 
    console.log("consumer group created successfully");

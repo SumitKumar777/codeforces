@@ -14,7 +14,8 @@
 	},
 	"scripts": {
 		"build": "tsc -b ",
-		"start": "bun run ./dist/scripts/redis-init.js &&  node ./dist/src/index.js",
+		"start": "bun run ./dist/redis/redis-init.js &&  pm2 delete judge-engine || true && pm2 start ./dist/src/index.js -i 2 --name judge-engine",
+		"stop": "pm2 delete judge-engine",
 		"dev": "concurrently \"tsc -b --watch\" \"nodemon ./dist\""
 	},
 	"peerDependencies": {

@@ -105,8 +105,6 @@ enum LanguageType {
   CPP
   JS
   PY
-  RUST
-  GO
 }
 
 enum SubmissionVerdict {
