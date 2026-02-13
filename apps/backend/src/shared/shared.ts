@@ -27,6 +27,7 @@ sharedApiRouter.get("/problem/:problemId", async (req, res) => {
 				description: true,
 				inputStatement: true,
 				outputStatement: true,
+				constraints: true,
 				visibleTestCase: {
 					take: 2,
 					orderBy: {
@@ -40,6 +41,8 @@ sharedApiRouter.get("/problem/:problemId", async (req, res) => {
 				},
 			},
 		});
+
+		console.log("problem details from db", problemDetails);
 
 		const parsedData = ProblemDetailsSchema.parse(problemDetails);
 		if (!parsedData) {

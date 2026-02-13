@@ -1,0 +1,6 @@
+in the judgeEngine i have to create the script of rootfs for other rootfs(cpp , python, js) like add its compilor for now just create of cpp and then create the script of execution vm by like creating the judgeEngine In go which will take the binary code and run on each testcase given in the input mounted file and  put all the result in the result.json file 
+
+
+write the judgeEngine in GoLang 
+
+which be readed by the backend and gets updated in the db and returns to the frontend using sse

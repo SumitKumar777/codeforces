@@ -12,6 +12,13 @@ const __dirname = path.dirname(__filename);
 
 const HOME = process.env.HOME!;
 
+export interface Submission {
+	submission_id: string;
+	problem_id: string;
+	language: Language;
+	code: string;
+	testcases: { input: string; expected_output: string }[];
+}
 
 
 
@@ -31,13 +38,7 @@ export const projectRoot: string = (() => {
 
 type Language = "CPP" | "JS" | "PY"
 
-export interface Submission {
-	submission_id: string;
-	problem_id: string;
-	language: Language;
-	code: string;
-	testcases: { input: string; expected_output: string }[];
-}
+
 
 type PathType = "file" | "dir";
 

@@ -1,3 +1,4 @@
+import "dotenv/config";
 import type { Express, Response } from "express";
 import express from "express";
 import { codeExecRouter } from "./codeExec/code.js";

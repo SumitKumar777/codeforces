@@ -6,7 +6,7 @@ import { z } from "zod";
 export const VisibleTestCaseSchema = z.object({
    id: z.string(),
    input: z.string(),
-   output: z.string(),
+   expected_output: z.string(),
 });
 
 export const ProblemDetailsSchema = z.object({
@@ -15,6 +15,7 @@ export const ProblemDetailsSchema = z.object({
    description: z.string(),
    inputStatement: z.string(),
    outputStatement: z.string(),
+   constraints: z.string(),
    visibleTestCase: z.array(VisibleTestCaseSchema),
 });
 

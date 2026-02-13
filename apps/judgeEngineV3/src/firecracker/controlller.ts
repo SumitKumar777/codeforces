@@ -54,6 +54,7 @@ export const controller = async (sub: Submission) => {
 
       await createTestCaseImage(sub);
 
+
       const userSourceCodeImage = await createUserCodeImage(sub);
 
       if (userSourceCodeImage?.status === "error") {

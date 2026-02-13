@@ -18,6 +18,11 @@ import prisma from "@repo/db"
 
 const createSubmissionObject = async (submissionId: string) => {
    try {
+
+      if (!submissionId) {
+         throw new Error(`submissionId is required, got ${submissionId}`);
+      }
+
       const submissionData = await prisma.submissions.findUnique({
          where: { id: submissionId }
       });
@@ -29,7 +34,6 @@ const createSubmissionObject = async (submissionId: string) => {
       const problemData = await prisma.problems.findUnique({
          where: { id: submissionData.problemId },
          include: {
-            visibleTestCase: true,
             hiddenTestCase: true
          }
       });
@@ -39,10 +43,6 @@ const createSubmissionObject = async (submissionId: string) => {
       }
 
       const testcases = [
-         ...problemData.visibleTestCase.map((testcase) => ({
-            input: testcase.input,
-            expected_output: testcase.expected_output
-         })),
          ...problemData.hiddenTestCase.map((testcase) => ({
             input: testcase.input,
             expected_output: testcase.expected_output

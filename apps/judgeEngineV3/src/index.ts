@@ -9,51 +9,62 @@ import crypto from "crypto";
 
 import createSubmissionObject from "./firecracker/get-testcases.js";
 
-
-
+// type SubmissionRedisType = {
+//    id: string;
+//    data: {
+//       submission_id: string;
+//       problem_id: string;  }[]
+// }
 async function main() {
    try {
-
       const readClient = await judgeEngine.getJudgeReadRedisClient();
-      const consumerName = `consumer-${process.pid}`;
+      const consumerName = `consumer-${process.env.NODE_APP_INSTANCE}`;
 
       console.log("consumer name", consumerName);
 
       while (true) {
-
          const response = await readClient.xReadGroup(
             "submissionReaderGroup",
-            consumerName, {
-            key: "submissionStream",
-            id: ">"
-         }, {
-            BLOCK: 0,
-            COUNT: 10
-         }
-         )
+            consumerName,
+            {
+               key: "submissionStream",
+               id: ">",
+            },
+            {
+               BLOCK: 0,
+               COUNT: 10,
+            },
+         );
+
+
 
          const submissions = response?.[0]?.messages.map((msg) => {
             const submissionData = msg.message.submission;
+            console.log("msg is ", msg);
             if (!submissionData) {
                console.log("no submission data in the message", msg);
                return null;
             }
-            return JSON.parse(submissionData);
+            return { id: msg.id, data: JSON.parse(submissionData) };
          }) || [];
-
 
          if (response) {
 
-            console.log("received data from stream", submissions);
 
             for (const sub of submissions) {
                try {
-                  const formattedSubData = await createSubmissionObject(sub.submission_id);
+                  console.log("processing submission id is ", sub?.id, "submission data is ", sub?.data);
+                  const formattedSubData = await createSubmissionObject(
+                     sub?.data.submission_id,
+                  );
                   console.log("formatted submission data", formattedSubData);
-                  // await controller(formattedSubData);
-                  // await evaluator(formattedSubData);
+
+                  await controller(formattedSubData);
+                  await evaluator(formattedSubData);
 
 
+
+                  await readClient.xAck("submissionStream", "submissionReaderGroup", sub!.id);
                } catch (error) {
                   console.log("error in processing submission", sub, error);
                }
@@ -62,8 +73,6 @@ async function main() {
          } else {
             console.log("no response", response);
          }
-
-
       }
 
       // for (const sub of submissionData) {
@@ -76,4 +85,4 @@ async function main() {
    }
 }
 
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));
