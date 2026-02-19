@@ -16,7 +16,7 @@ function UserData() {
 	return (
 		<div>
 			{session ? (
-				<div className="flex gap-4">
+				<div className=" ">
 					<div>
 						<p>Welcome, {session.user.name}!</p>
 						<p>Your role: {session.user.role}</p>

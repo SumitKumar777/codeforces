@@ -5,7 +5,7 @@ import { ApiResponseSchema, ProblemDetailsSchema } from "@repo/types";
 const fetchProblem = async (problemId: string) => {
 	try {
 		const response = await fetch(
-			`http://localhost:3001/shared/problem/${problemId}`,
+			`${process.env.BACKEND_URL}/shared/problem/${problemId}`,
 		);
 		const data = await response.json();
 
@@ -29,12 +29,12 @@ async function SolvePage({ params }: { params: Promise<{ slug: string }> }) {
 	return (
 		<div>
 			{problemData && problemData.success ? (
-				<div className="grid grid-cols-2 h-screen">
-					<div className="border-r overflow-y-auto min-h-0 ">
+				<div className="grid grid-cols-2 h-screen w-full">
+					<div className="border-r overflow-y-auto min-h-0 w-full ">
 						<ProblemRenderer problem={problemData.data} />
 					</div>
 					<div className="overflow-y-auto min-h-0">
-						<CodingSection />
+						<CodingSection testcases={problemData.data.visibleTestCase} />
 					</div>
 				</div>
 			) : (

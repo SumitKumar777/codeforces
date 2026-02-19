@@ -39,7 +39,7 @@ function ProblemRenderer({ problem }: { problem: ProblemDetails }) {
 			.join("\n");
 
 	return (
-		<div className="w-full max-w-4xl mx-auto ">
+		<div className="w-full h-full">
 			<div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
 				<div className="px-6 py-8 sm:px-10">
 					<ReactMardown

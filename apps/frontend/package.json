@@ -20,10 +20,12 @@
     "@repo/types": "*",
     "@repo/ui": "*",
     "@tailwindcss/postcss": "^4.1.18",
+    "@tanstack/react-query": "^5.90.21",
     "axios": "^1.13.2",
     "better-auth": "^1.4.15",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.564.0",
     "next": "16.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -32,11 +34,13 @@
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
-    "zod": "^4.3.5"
+    "zod": "^4.3.5",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
+    "@tanstack/eslint-plugin-query": "^5.91.4",
     "@types/node": "^22.15.3",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
